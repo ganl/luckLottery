@@ -1,0 +1,135 @@
+.loading{
+  position: fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,.85);
+}
+
+#colorfulPulse {
+  width: 300px;
+  height: 100px;
+  margin:0 auto;
+  position: absolute;
+  left:50%;
+  top:50%;
+  margin:-50px 0 0 -150px;
+}
+
+#colorfulPulse span {
+  display: inline-block;
+  width: 15px;
+  height: 80px;
+  margin-left:10px;
+  margin-right:10px;
+  animation-name: scale;
+  -webkit-animation-name: scale;
+  animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+span.item-1 {
+  background: #2ecc71;
+}
+span.item-2 {
+  background: #3498db;
+}
+span.item-3 {
+  background: #9b59b6;
+}
+span.item-4 {
+  background: #e67e22;
+}
+span.item-5 {
+  background: #c0392b;
+}
+
+span.item-6 {
+  background: #e74c8c;
+}
+
+span.item-7 {
+  background: #e74c8c;
+}
+
+.item-1 {
+  animation-delay: 0.13s;
+  -webkit-animation-delay: 0.13s;
+}
+
+.item-2 {
+  animation-delay: 0.26s;
+  -webkit-animation-delay: 0.26s;
+}
+
+.item-3 {
+  animation-delay: 0.39s;
+  -webkit-animation-delay: 0.39s;
+}
+
+.item-4 {
+  animation-delay: 0.52s;
+  -webkit-animation-delay: 0.52s;
+}
+
+.item-5 {
+  animation-delay: 0.65s;
+  -webkit-animation-delay: 0.65s;
+}
+
+.item-6 {
+  animation-delay: 0.78s;
+  -webkit-animation-delay: 0.78s;
+}
+
+.item-7 {
+  animation-delay: 0.91s;
+  -webkit-animation-delay: 0.91s;
+}
+
+
+@-webkit-keyframes scale {
+  0%, 100% {
+    -webkit-transform: scaleY(0.8);
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    -webkit-transform: scaleY(0.2);
+    transform: scaleY(0.2);
+  }
+}
+@-moz-keyframes scale {
+  0%, 100% {
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    -webkit-transform: scaleY(0.2);
+    transform: scaleY(0.2);
+  }
+}
+@-ms-keyframes scale {
+  0%, 100% {
+    -webkit-transform: scaleY(0.8);
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    -webkit-transform: scaleY(0.2);
+    transform: scaleY(0.2);
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    -webkit-transform: scaleY(0.8);
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    -webkit-transform: scaleY(0.2);
+    transform: scaleY(0.2);
+  }
+}
