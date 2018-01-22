@@ -115,8 +115,9 @@ function winningFn(type) {
 
 // 中奖翻牌HTML
 function showHaveHTML(type) {
+    console.log(firstType, type)
     // 判断是否换了抽奖等级
-    if (firstType && firstType != type) {
+    if (firstType != '' && firstType != type) {
         scene.find('div.select-number').remove();
     }
 
@@ -136,20 +137,22 @@ function showHaveHTML(type) {
         }
         if (newArr && newArr.length) {
             for (var i = 0; i < newArr.length; i++) {
-                html += '<div class="select-number list" style="right:-145px;top:' + (15 + (i * 40)) + 'px;transform: scale(0.28,0.28);margin:0;">\
+                html += '<div class="select-number list" style="right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative">\
 						<div class="block">\
-                            <img src="./img/items/image' + ( '0000' + (userList.userList[(parseInt(newArr[i].value) % 194)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
-                            <span>' + newArr[i].value.toString() + '</span>\
+                            <img src="./img/items/image' + ( '0000' + (userList.userList[(parseInt(newArr[i].value) % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                            <span>' + userList.userList[(parseInt(newArr[i].value) % totalperson)].name + '</span>\
 						</div>\
 					</div>';
             }
         }
-        scene.append(html);
+        $('#luck-list').append(html);
+        // scene.append(html);
     }
 }
 
 function setJiangPingLevel(level) {
     levelType = level;
+    cNum = 0; // 清零
     var $levelType = $('#levelType');
 
     $levelType.html(levelTypeTitle[levelType]);
@@ -221,7 +224,7 @@ function getJiangPing() {
         var keyframes = "@keyframes " + zhongjiangclass + "{\
 				0% {opacity:1;right:50%;top:50%;transform: scale(1,1);margin:-100px -240px 0 0;}\
 				50%{opacity:0.1;}\
-				100% {opacity:1;right:-145px;top:" + (15 + ((scene.find('div.select-number').length - 1) * 40)) + "px;transform: scale(0.28,0.28);margin:0;}\
+				100% {opacity:1;right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative;}\
 			}";
         $('#styles').append(keyframes);
 
@@ -234,7 +237,7 @@ function getJiangPing() {
         out.css({
             animation: 'choujiangScale2 2s 4s forwards'
         });
-        // var imgUrl = userList.userList[(parseInt(winninge) % 194)].avatar;
+        // var imgUrl = userList.userList[(parseInt(winninge) % totalperson)].avatar;
         var imgUrl = './img/items/image' + ( '0000' + (userList.userList[(winninge % totalperson)].index * 2 - 1) ).slice(-3) + '.png';
         var userName = userList.userList[(parseInt(winninge) % totalperson)].name
 
@@ -298,14 +301,15 @@ function showLuckAnimate(imgUl, showLevel, userName, zhongjiangclass) {
 
 // 中奖翻牌HTML
 function getHTML(number, classname) {
-    console.log(userList.userList[(parseInt(number) % 194)]);
+    console.log(userList.userList[(parseInt(number) % totalperson)]);
     var html = '<div class="select-number ' + classname + '">\
                 <div class="block">\
-                    <img src="./img/items/image' + ( '0000' + (userList.userList[(number % 194)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
-                    <span>' + userList.userList[(parseInt(number) % 194)].name + '</span>\
+                    <img src="./img/items/image' + ( '0000' + (userList.userList[(number % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                    <span>' + userList.userList[(parseInt(number) % totalperson)].name + '</span>\
 				</div>\
 		</div>';
-    scene.append(html);
+    $('#luck-list').append(html);
+    // scene.append(html);
 }
 
 function confirmJiangPing(zhongjiangclass) {
@@ -344,6 +348,8 @@ function confirmJiangPing(zhongjiangclass) {
 
         // 运动完成自动继续抽奖
         $('div.' + zhongjiangclass).one("animationend", function () {
+            var luck_list = document.getElementById('luck-list');
+            luck_list.scrollTop = luck_list.scrollHeight;
             if(luckNum != cNum) { //
 
                 runingmic.currentTime = 0;
@@ -355,6 +361,8 @@ function confirmJiangPing(zhongjiangclass) {
                 $('#ball').one("animationend", function () {
                     getJiangPing()
                 });
+            } else {
+                cNum = 0; // 清零
             }
             // $('button.btn').removeAttr("disabled");
         });

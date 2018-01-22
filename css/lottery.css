@@ -422,7 +422,24 @@
 }
 
 .img-circle {
+    border: 2px solid #f759fe;
 	border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+div.block span {
+    text-align: center;
+    width: 100px;
+    text-overflow: ellipsis;
+    space: nowrap;
+    overflow: hidden;
+    display: block;
+    font-size: 20px;
+}
+
+div.block img{
+    width: 100px;
+    height: 100px;
 }
 
 .confirm-btn {
@@ -435,5 +452,31 @@
 		transform: scale(0);
 		-webkit-animation: lotteryuserhead 1s forwards;
 	}
+}
+
+#luck-list {
+    height: 580px;
+    overflow: auto;
+    width: 195px;
+    position: absolute;
+    right: 0px;
+    top: 90px;
+    z-index: 100001;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background: 0;
+    -webkit-border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #21a2f1;
+    height: 50px;
+    -webkit-border-radius: 4px;
 }
 
