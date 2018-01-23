@@ -101,11 +101,12 @@
 			height:wH+'px'
 		});
 
-		var userList = '';
+		var userList = null;
         // 加载进度条并执行球
 		$.getJSON('user.json', {}, function (data) {
-			userList = data;
-			console.log(userList.userList)
+			userList = data.userList;
+            totalperson = userList.length
+			// console.log(totalperson)
             // 隐藏进度条
             $('div.loading').fadeOut(1500);
         });

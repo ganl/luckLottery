@@ -58,11 +58,12 @@ drawBall.prototype = {
 	},
 	// 平铺li
 	showLi: function() {
+		console.log(userList);
 		var items = this.length + this.largeRows;
 		for (var i = 0; i < items; i++) {
 			var style = "position:inherit;display: inline-block;margin:15px;"
-			this.html += "<li style='" + style + "'><img src='./img/items/image" + ( '0000' + (userList.userList[(i % 194)].index * 2 - 1) ).slice(-3) + ".png'></li>"
-			// this.html += "<li style='" + style + "'><img src='" + userList.userList[(i % 194)].avatar  + "'></li>"
+			this.html += "<li style='" + style + "'><img src='./img/items/image" + ( '0000' + (userList[(i % totalperson)].index * 2 - 1) ).slice(-3) + ".png'></li>"
+			// this.html += "<li style='" + style + "'><img src='" + userList[(i % 194)].avatar  + "'></li>"
 		};
 		this.ball.innerHTML = this.html;
 		this.donghua();

@@ -17,7 +17,7 @@ var running = false;
 var cNum = 0;
 
 //总共参与抽奖的人数
-var totalperson = 194;
+var totalperson = 192;
 
 scene.css({
     width: winW + 'px',
@@ -28,7 +28,7 @@ scene.css({
 
 var initdatas = localStorage.getItem('initdatas') ? JSON.parse(localStorage.getItem('initdatas')) : [];
 if (!initdatas.length) {
-    for (var i = 1; i <= totalperson; i++) {
+    for (var i = 0; i < totalperson; i++) {
         if (i < 10) {
             initdatas.push('00' + i);
         } else if (i < 100) {
@@ -106,6 +106,7 @@ function winningFn(type) {
         localStorage.setItem('isWinningeds', JSON.stringify(isWinningeds))
         isWinningedsJson.push({
             type: type,
+            name: userList[winningeIndex].name,
             value: initdatas[winningeIndex]
         });
         localStorage.setItem('isWinningedsJson', JSON.stringify(isWinningedsJson))
@@ -139,8 +140,8 @@ function showHaveHTML(type) {
             for (var i = 0; i < newArr.length; i++) {
                 html += '<div class="select-number list" style="right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative">\
 						<div class="block">\
-                            <img src="./img/items/image' + ( '0000' + (userList.userList[(parseInt(newArr[i].value) % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
-                            <span>' + userList.userList[(parseInt(newArr[i].value) % totalperson)].name + '</span>\
+                            <img src="./img/items/image' + ( '0000' + (userList[(parseInt(newArr[i].value) % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                            <span>' + userList[(parseInt(newArr[i].value) % totalperson)].name + '</span>\
 						</div>\
 					</div>';
             }
@@ -237,9 +238,9 @@ function getJiangPing() {
         out.css({
             animation: 'choujiangScale2 2s 4s forwards'
         });
-        // var imgUrl = userList.userList[(parseInt(winninge) % totalperson)].avatar;
-        var imgUrl = './img/items/image' + ( '0000' + (userList.userList[(winninge % totalperson)].index * 2 - 1) ).slice(-3) + '.png';
-        var userName = userList.userList[(parseInt(winninge) % totalperson)].name
+        // var imgUrl = userList[(parseInt(winninge) % totalperson)].avatar;
+        var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index * 2 - 1) ).slice(-3) + '.png';
+        var userName = userList[(parseInt(winninge) % totalperson)].name
 
         out.one("animationend", function () {
             showLuckAnimate(imgUrl, levelTypeTitle[levelType], userName, zhongjiangclass);
@@ -301,11 +302,11 @@ function showLuckAnimate(imgUl, showLevel, userName, zhongjiangclass) {
 
 // 中奖翻牌HTML
 function getHTML(number, classname) {
-    console.log(userList.userList[(parseInt(number) % totalperson)]);
+    console.log(userList[(parseInt(number) % totalperson)]);
     var html = '<div class="select-number ' + classname + '">\
                 <div class="block">\
-                    <img src="./img/items/image' + ( '0000' + (userList.userList[(number % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
-                    <span>' + userList.userList[(parseInt(number) % totalperson)].name + '</span>\
+                    <img src="./img/items/image' + ( '0000' + (userList[(number % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                    <span>' + userList[(parseInt(number) % totalperson)].name + '</span>\
 				</div>\
 		</div>';
     $('#luck-list').append(html);
