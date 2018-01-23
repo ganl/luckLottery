@@ -10,6 +10,6 @@ do
 	echo $i
 	name=`echo $i | sed 's/^image[0-9]*/image'$j'/g'`      
 	echo $name
-       	#mv $i  $name
+       	mv $i  $name
 done
 
