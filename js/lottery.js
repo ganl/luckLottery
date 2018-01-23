@@ -28,7 +28,7 @@ scene.css({
 
 var initdatas = localStorage.getItem('initdatas') ? JSON.parse(localStorage.getItem('initdatas')) : [];
 if (!initdatas.length) {
-    for (var i = 0; i < totalperson; i++) {
+    for (var i = 1; i <= totalperson; i++) { // store index
         if (i < 10) {
             initdatas.push('00' + i);
         } else if (i < 100) {
@@ -82,10 +82,15 @@ function winningFn(type) {
     var winningeIndex = 0;
 
     //中奖号码索引
-    if (threeth > baith) {
+    if (threeth >= baith) {
         winningeIndex = getNumberForRadom(0, 0) * 100 + threeth
     } else {
         winningeIndex = getNumberForRadom(1, 0) * 100 + threeth
+    }
+
+    if(isWinningeds.length >= totalperson){
+        alert('剩余抽奖人数不足！！！ 请清空浏览器缓存，再重新开始');
+        return false;
     }
 
     // 判断是否是重复中奖号码
@@ -110,6 +115,7 @@ function winningFn(type) {
             value: initdatas[winningeIndex]
         });
         localStorage.setItem('isWinningedsJson', JSON.stringify(isWinningedsJson))
+        console.log('winningFn ' + winningeIndex, initdatas[winningeIndex]);
         return winningeIndex
     }
 }
@@ -118,7 +124,7 @@ function winningFn(type) {
 function showHaveHTML(type) {
     console.log(firstType, type)
     // 判断是否换了抽奖等级
-    if (firstType != '' && firstType != type) {
+    if (firstType !== '' && firstType != type) {
         scene.find('div.select-number').remove();
     }
 
@@ -199,6 +205,7 @@ function getJiangPing() {
 
         // 中奖号码
         var winninge = initdatas[winningFn(type)];
+        console.log('getJiangPing ' + winninge);
 
         // 塞入中奖html
         var zhongjiangclass = randomString(6);
