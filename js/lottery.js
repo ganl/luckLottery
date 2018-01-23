@@ -140,7 +140,7 @@ function showHaveHTML(type) {
             for (var i = 0; i < newArr.length; i++) {
                 html += '<div class="select-number list" style="right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative">\
 						<div class="block">\
-                            <img src="./img/items/image' + ( '0000' + (userList[(parseInt(newArr[i].value) % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                            <img src="./img/items/image' + ( '0000' + (userList[(parseInt(newArr[i].value) % totalperson)].index) ).slice(-3) + '.png" class="img-circle">\
                             <span>' + userList[(parseInt(newArr[i].value) % totalperson)].name + '</span>\
 						</div>\
 					</div>';
@@ -207,7 +207,7 @@ function getJiangPing() {
         getHTML(winninge, zhongjiangclass);
 
         // 打印中奖号码和索引
-        console.log('中奖的索引' + winninge);
+        console.log('中奖的索引(array下标):' + winninge);
 
         /*------------------------------抽奖结束------------------------------------*/
 
@@ -239,7 +239,7 @@ function getJiangPing() {
             animation: 'choujiangScale2 2s 4s forwards'
         });
         // var imgUrl = userList[(parseInt(winninge) % totalperson)].avatar;
-        var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index * 2 - 1) ).slice(-3) + '.png';
+        var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index) ).slice(-3) + '.png';
         var userName = userList[(parseInt(winninge) % totalperson)].name
 
         out.one("animationend", function () {
@@ -305,7 +305,7 @@ function getHTML(number, classname) {
     console.log(userList[(parseInt(number) % totalperson)]);
     var html = '<div class="select-number ' + classname + '">\
                 <div class="block">\
-                    <img src="./img/items/image' + ( '0000' + (userList[(number % totalperson)].index * 2 - 1) ).slice(-3) + '.png" class="img-circle">\
+                    <img src="./img/items/image' + ( '0000' + (userList[(number % totalperson)].index) ).slice(-3) + '.png" class="img-circle">\
                     <span>' + userList[(parseInt(number) % totalperson)].name + '</span>\
 				</div>\
 		</div>';

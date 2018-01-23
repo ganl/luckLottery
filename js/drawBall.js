@@ -5,10 +5,10 @@ function drawBall(ball) {
 		between: 7, //两行之前的间隔数
 		begin: 1, //开始第一个数量
 	};
-	this.largeRows = 40; //外圈大圆数量
+	this.largeRows = 6; //外圈大圆数量
 	// this.config = {
-	// 	rows: 7, //行数
-	// 	between: 3, //两行之前的间隔数
+	// 	rows: 9, //行数
+	// 	between: 5, //两行之前的间隔数
 	// 	begin: 1, //开始第一个数量
 	// };
 	// this.largeRows = 40; //外圈大圆数量
@@ -17,7 +17,7 @@ function drawBall(ball) {
 	this.bigradius = 100; //大圆与小圆之间的半径差
 	this.angles = []; //圆球所有点坐标
 	this.large = []; //最大的一圈园坐标
-	this.length = 0; //园的总数量
+	this.length = 0; //圆的总数量
 	this.html = ""; //所有的li元素字符串
 	this.rows = [];
 	this.styles = []; //平铺时所有li的位置记录
@@ -54,15 +54,15 @@ drawBall.prototype = {
 		for (var i = 0, len = this.rows.length; i < len; i++) {
 			this.length += this.rows[i];
 		}
-		console.log(this.length);
+		// console.log(this.length);
 	},
 	// 平铺li
 	showLi: function() {
-		console.log(userList);
 		var items = this.length + this.largeRows;
 		for (var i = 0; i < items; i++) {
+			// console.log(this.PrefixInteger(userList[(i % totalperson)].index, 3) + '.png', i)
 			var style = "position:inherit;display: inline-block;margin:15px;"
-			this.html += "<li style='" + style + "'><img src='./img/items/image" + ( '0000' + (userList[(i % totalperson)].index * 2 - 1) ).slice(-3) + ".png'></li>"
+			this.html += "<li style='" + style + "'><img src='./img/items/image" + this.PrefixInteger(userList[(i % totalperson)].index, 3) + ".png'></li>"
 			// this.html += "<li style='" + style + "'><img src='" + userList[(i % 194)].avatar  + "'></li>"
 		};
 		this.ball.innerHTML = this.html;
@@ -151,7 +151,7 @@ drawBall.prototype = {
 			this.angles.push(obj);
 		}
 	},
-	// 算最大园的三围点
+	// 算最大圆的三围点
 	drawLarge: function() {
 		this.large = [];
 		for (var i = 0; i <= this.largeRows; i++) {
@@ -174,7 +174,7 @@ drawBall.prototype = {
 		var newDatas = this.angles.concat(this.large);
 		this.getHtml(newDatas);
 	},
-	//确定园的位置 生成 keyframesball
+	//确定圆的位置 生成 keyframesball
 	getHtml: function(datas) {
 		var _this = this;
 		var lis = $(this.ball).find('li');

@@ -8,11 +8,11 @@ $('div.star').css({
 });
 
 var html = "";
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 30; i++) {
 	var random = Math.random();
 	html += '<img class="star-img"\
 	style="z-index:2;left:' + Math.random() * winW + 'px;top:' + Math.random() * winH + 'px;width:' + 50 * random + 'px;height:' + 50 * random + 'px;"\
-	src = "./img/avatar/' + (i % 10) + '.jpeg" / > ';
+	src = "./img/stars/star.png" / > ';
 }
 $('div.star').html(html);
 
