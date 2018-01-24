@@ -16,6 +16,8 @@ var luckNum = 0;
 var running = false;
 var cNum = 0;
 
+var timer = null;
+
 //总共参与抽奖的人数
 var totalperson = 192;
 
@@ -306,10 +308,11 @@ function showLuckAnimate(imgUl, showLevel, userName, zhongjiangclass) {
     //     });
     // }, 5000);
     // console.log(luckNum)
-    if(luckNum > 1){
-        var count = 3;
-        countDown(count, zhongjiangclass)
-    }
+    // if(luckNum > 1){
+    //     confirmWin
+    //     var count = 3;
+    //     countDown(count, zhongjiangclass)
+    // }
 
 }
 
@@ -318,10 +321,10 @@ function countDown(val, zhongjiangclass) {
         confirmJiangPing(zhongjiangclass);
         return true;
     } else {
-        $('#confirmWin').text('确定('+ val +'s)');
+        $('#confirmWin').text('自动抽('+ val +'s)');
         val--;
     }
-    setTimeout(function() {
+    timer = setTimeout(function() {
         countDown(val, zhongjiangclass)
     }, 1000)
 }
@@ -340,6 +343,7 @@ function getHTML(number, classname) {
 }
 
 function confirmJiangPing(zhongjiangclass) {
+    clearTimeout(timer);
     // 中奖动画移除
     $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
         $(".animate-bg").remove();
