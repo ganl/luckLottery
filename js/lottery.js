@@ -299,12 +299,31 @@ function showLuckAnimate(imgUl, showLevel, userName, zhongjiangclass) {
     //播放中奖音效
     pausemic.currentTime = 0;
     pausemic.play();
-    scene.append('<div class="animate-bg"><div class="light"></div><div class="lottery-animate-bg"><div class="lotteryuserhead"><img src="' + imgUl + '"/></div><div class="level">恭喜<span class="user-name">' + userName + '</span>获得<p class="awards-name">' + showLevel + '</p></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ zhongjiangclass +'\')"><span>确定</span></button></div></div>');
+    scene.append('<div class="animate-bg"><div class="light"></div><div class="lottery-animate-bg"><div class="lotteryuserhead"><img src="' + imgUl + '"/></div><div class="level">恭喜<span class="user-name">' + userName + '</span>获得<p class="awards-name">' + showLevel + '</p></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ zhongjiangclass +'\')"><span id="confirmWin">确定</span></button></div></div>');
     // setTimeout(function () {
     //     $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
     //         $(".animate-bg").remove();
     //     });
     // }, 5000);
+    // console.log(luckNum)
+    if(luckNum > 1){
+        var count = 3;
+        countDown(count, zhongjiangclass)
+    }
+
+}
+
+function countDown(val, zhongjiangclass) {
+    if(val == 0) {
+        confirmJiangPing(zhongjiangclass);
+        return true;
+    } else {
+        $('#confirmWin').text('确定('+ val +'s)');
+        val--;
+    }
+    setTimeout(function() {
+        countDown(val, zhongjiangclass)
+    }, 1000)
 }
 
 // 中奖翻牌HTML
