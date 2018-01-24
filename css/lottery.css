@@ -353,8 +353,10 @@
 	bottom: 0;
 	margin: auto;
 	z-index: 9999;
+	/*display: -webkit-box; */
 	background: url(../img/lucky-bg.png) top center no-repeat;
 	-webkit-animation: lotteryuserhead 1s forwards;
+	text-align: center;
 }
 
 .lottery-animate-bg>div.lotteryuserhead, .lottery-animate-bg>div.lotteryuserhead2 {
@@ -489,11 +491,13 @@ div.block img{
     -webkit-border-radius: 4px;
 }
 
-.lottery-animate-bg>div.lotteryuserhead2 {
+.lotteryuserhead2 {
+	-webkit-box-flex: 1;
 	/*width: 33.3%;*/
 	width: 200px;
 	height: 400px;
 	float: left;
+	left: auto;
 	margin: 0 15px;
 	background: url(../img/lucky.png) no-repeat;
 	background-size: 100% 50%;
@@ -523,4 +527,6 @@ div.block img{
 	top: -28px;
 }
 
-
+#multi-lottery {
+	display:inline-block;
+}

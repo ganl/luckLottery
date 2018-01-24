@@ -317,9 +317,9 @@ function showLuckAnimate(showLevel, personObj) {
     var zhongjiangclasses = [];
 
     if(luckNum > 1){
-        scene.append('<div class="animate-bg"><div class="lottery-animate-bg"></div>');
+        scene.append('<div class="animate-bg"><div class="lottery-animate-bg"><div id="multi-lottery"></div>');
         for(var i = 0; i < luckNum; i++) {
-            $('.lottery-animate-bg').append('<div class="lotteryuserhead2"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
+            $('#multi-lottery').append('<div class="lotteryuserhead2"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
             zhongjiangclasses.push(personObj[i].zhongjiangclass);
         }
 
