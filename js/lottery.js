@@ -199,71 +199,83 @@ function getJiangPing() {
     showJiangText(type);
     firstType = type;
 
+    var personArrObj = [];
+
     if(running) { // if running, then stop it. and get the lucky man
 
         $('button.btn-success').attr('disabled', true);
 
-        /*------------------------------抽奖开始------------------------------------*/
+        for(var i = 0; i < luckNum; i++) {
+            /*------------------------------抽奖开始------------------------------------*/
 
-        // 中奖号码
-        var winninge = initdatas[winningFn(type)];
-        console.log('getJiangPing ' + winninge);
+            // 中奖号码
+            var winninge = initdatas[winningFn(type)];
+            console.log('getJiangPing ' + winninge);
 
-        // 塞入中奖html
-        var zhongjiangclass = randomString(6);
+            // 塞入中奖html
+            var zhongjiangclass = randomString(6);
 
-        // 界面上显示中奖号码
-        getHTML(winninge, zhongjiangclass);
+            // 界面上显示中奖号码
+            getHTML(winninge, zhongjiangclass);
 
-        // 打印中奖号码和索引
-        console.log('中奖的索引(array下标):' + winninge);
+            // 打印中奖号码和索引
+            console.log('中奖的索引(array下标):' + winninge);
 
-        /*------------------------------抽奖结束------------------------------------*/
+            /*------------------------------抽奖结束------------------------------------*/
 
-        // 存入数组
-        allClass.push({
-            classname: zhongjiangclass,
-            type: type
-        });
-        totalClass.push({
-            classname: zhongjiangclass,
-            type: type
-        });
+            // 存入数组
+            allClass.push({
+                classname: zhongjiangclass,
+                type: type
+            });
+            totalClass.push({
+                classname: zhongjiangclass,
+                type: type
+            });
 
-        // 生成抽奖右移动画
-        var keyframes = "@keyframes " + zhongjiangclass + "{\
+            // 生成抽奖右移动画
+            var keyframes = "@keyframes " + zhongjiangclass + "{\
 				0% {opacity:1;right:50%;top:50%;transform: scale(1,1);margin:-100px -240px 0 0;}\
 				50%{opacity:0.1;}\
 				100% {opacity:1;right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative;}\
 			}";
-        $('#styles').append(keyframes);
+            $('#styles').append(keyframes);
+
+
+            // var imgUrl = userList[(parseInt(winninge) % totalperson)].avatar;
+            var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index) ).slice(-3) + '.png';
+            var userName = userList[(parseInt(winninge) % totalperson)].name
+
+            personArrObj.push({imgurl: imgUrl, username: userName, zhongjiangclass: zhongjiangclass});
+
+        }
+
 
         runingmic.pause();
 
         $('#ball').css({
             'animation-play-state': 'paused',
+            // animation: 'none'
             animation: 'choujiang 4s cubic-bezier(0.025, 0.735, 0.025, 0.990) 1 forwards'
         });
-        out.css({
-            animation: 'choujiangScale2 2s 4s forwards'
+
+        $('#ball').one("animationend", function () {
+            out.css({
+                animation: 'choujiangScale2 2s 4s forwards'
+            });
         });
-        // var imgUrl = userList[(parseInt(winninge) % totalperson)].avatar;
-        var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index) ).slice(-3) + '.png';
-        var userName = userList[(parseInt(winninge) % totalperson)].name
 
         out.one("animationend", function () {
-            showLuckAnimate(imgUrl, levelTypeTitle[levelType], userName, zhongjiangclass);
+            showLuckAnimate(levelTypeTitle[levelType], personArrObj);
         });
 
 
-        cNum++;
-
-        if(luckNum == cNum) { // 一次抽奖的人数已经达到，允许下次抽奖
-            running = false;
-            $('button.dropdown-toggle').attr('disabled', false);
-            $('button.btn-success').text('开始抽奖');
-            $('button.btn-success').removeAttr("disabled");
-        }
+        // if(luckNum == cNum) { // 一次抽奖的人数已经达到，允许下次抽奖
+        //     running = false;
+        //     $('button.dropdown-toggle').attr('disabled', false);
+        //     $('button.btn-success').text('开始抽奖');
+        //     $('button.btn-success').removeAttr("disabled");
+        // }
 
         return true;
 
@@ -297,11 +309,24 @@ function showJiangText(type) {
 }
 
 //显示中奖动画
-function showLuckAnimate(imgUl, showLevel, userName, zhongjiangclass) {
+function showLuckAnimate(showLevel, personObj) {
     //播放中奖音效
     pausemic.currentTime = 0;
     pausemic.play();
-    scene.append('<div class="animate-bg"><div class="light"></div><div class="lottery-animate-bg"><div class="lotteryuserhead"><img src="' + imgUl + '"/></div><div class="level">恭喜<span class="user-name">' + userName + '</span>获得<p class="awards-name">' + showLevel + '</p></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ zhongjiangclass +'\')"><span id="confirmWin">确定</span></button></div></div>');
+
+    var zhongjiangclasses = [];
+
+    if(luckNum > 1){
+        scene.append('<div class="animate-bg"><div class="lottery-animate-bg"></div>');
+        for(var i = 0; i < luckNum; i++) {
+            $('.lottery-animate-bg').append('<div class="lotteryuserhead2"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
+            zhongjiangclasses.push(personObj[i].zhongjiangclass);
+        }
+
+        $('.lottery-animate-bg').append('<div class="clearfix"></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ zhongjiangclasses.join(',') +'\')"><span id="confirmWin">确定</span></button></div>');
+    } else {
+        scene.append('<div class="animate-bg"><div class="light"></div><div class="lottery-animate-bg"><div class="lotteryuserhead"><img src="' + personObj[0].imgurl + '"/></div><div class="level">恭喜<span class="user-name">' + personObj[0].username + '</span>获得<p class="awards-name">' + showLevel + '</p></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ personObj[0].zhongjiangclass +'\')"><span id="confirmWin">确定</span></button></div></div>');
+    }
     // setTimeout(function () {
     //     $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
     //         $(".animate-bg").remove();
@@ -343,69 +368,67 @@ function getHTML(number, classname) {
 }
 
 function confirmJiangPing(zhongjiangclass) {
-    clearTimeout(timer);
+
+    var zjclass = zhongjiangclass.split(',');
+
     // 中奖动画移除
     $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
         $(".animate-bg").remove();
     });
 
-    // 翻牌
-    $('div.' + zhongjiangclass).css({
-        animation: 'selectnumberanimate 1s forwards'
-    });
+    zjclass.forEach(function (value) {
 
-    // 移动奖牌
-    $('div.' + zhongjiangclass).one("animationend", function () {
-
-        $('div.' + zhongjiangclass).css({
-            animation: zhongjiangclass + ' 2s forwards'
+        // 翻牌
+        $('div.' + value).css({
+            animation: 'selectnumberanimate 1s forwards'
         });
 
-        setTimeout(function () {
-            $('div.' + zhongjiangclass).addClass('list');
-        }, 1000);
 
-        // 球放大并恢复运转
-        setTimeout(function () {
-            out.css({
-                animation: 'choujiangScale3 2s forwards'
+        // 移动奖牌
+        $('div.' + value).one("animationend", function () {
+
+            $('div.' + value).css({
+                animation: value + ' 2s forwards'
             });
 
-            // 球恢复运行
-            $('#ball').css({
-                animation: 'myball 50s linear infinite'
-            });
-        }, 1000);
+            setTimeout(function () {
+                $('div.' + value).addClass('list');
+            }, 1000);
 
-        // 运动完成自动继续抽奖
-        $('div.' + zhongjiangclass).one("animationend", function () {
-            var luck_list = document.getElementById('luck-list');
-            luck_list.scrollTop = luck_list.scrollHeight;
-            if(luckNum != cNum) { //
+            // 球放大并恢复运转
+            setTimeout(function () {
+                out.css({
+                    animation: 'choujiangScale3 2s forwards'
+                });
 
-                runingmic.currentTime = 0;
-                runingmic.play();
-
+                // 球恢复运行
                 $('#ball').css({
-                    animation: 'choujiang 4s cubic-bezier(0.025, 0.735, 0.025, 0.990) 1 forwards'
+                    animation: 'myball 50s linear infinite'
                 });
-                $('#ball').one("animationend", function () {
-                    getJiangPing()
-                });
-            } else {
-                cNum = 0; // 清零
-            }
-            // $('button.btn').removeAttr("disabled");
+            }, 1000);
+
+            // 运动完成自动继续抽奖
+            $('div.' + value).one("animationend", function () {
+                var luck_list = document.getElementById('luck-list');
+                luck_list.scrollTop = luck_list.scrollHeight;
+                running = false;
+                $('button.dropdown-toggle').attr('disabled', false);
+                $('button.btn-success').text('开始抽奖');
+                $('button.btn-success').removeAttr("disabled");
+            });
+
+
+
+            // 清除动画
+            // out.css({
+            // 	animation: 'none',
+            // });
+
+            // 是否显示获奖标题
+            showJiangText(levelType);
         });
-
-        // 清除动画
-        // out.css({
-        // 	animation: 'none',
-        // });
-
-        // 是否显示获奖标题
-        showJiangText(levelType);
     });
+
 }
 
 /*生成随机字符串*/

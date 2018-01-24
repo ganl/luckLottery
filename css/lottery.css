@@ -311,6 +311,15 @@
 	opacity: .5;
 }
 
+@keyframes lightRotate {
+	0%  {
+		transform: rotateZ(0)
+	}
+	100% {
+		transform: rotateZ(360deg)
+	}
+}
+
 @-webkit-keyframes lightRotate {
 	0%  {
 		-webkit-transform: rotateZ(0)
@@ -348,7 +357,7 @@
 	-webkit-animation: lotteryuserhead 1s forwards;
 }
 
-.lottery-animate-bg>div.lotteryuserhead {
+.lottery-animate-bg>div.lotteryuserhead, .lottery-animate-bg>div.lotteryuserhead2 {
 	width: 400px;
 	height: 400px;
 	position: relative;
@@ -479,4 +488,39 @@ div.block img{
     height: 50px;
     -webkit-border-radius: 4px;
 }
+
+.lottery-animate-bg>div.lotteryuserhead2 {
+	/*width: 33.3%;*/
+	width: 200px;
+	height: 400px;
+	float: left;
+	margin: 0 15px;
+	background: url(../img/lucky.png) no-repeat;
+	background-size: 100% 50%;
+	text-align: center;
+}
+
+.lotteryuserhead2:before {
+	content: '';
+	width: 200px;
+	height: 200px;
+	display: block;
+	animation: lightRotate 1.2s infinite linear;
+	background: url(../img/lucky1.png)no-repeat;
+	background-size: 100% 100%;
+	z-index: 1;
+}
+
+.lotteryuserhead2 img {
+	width: 140px;
+	height: 140px;
+	margin-top: -224px;
+}
+
+.lotteryuserhead2 span.user-name {
+	line-height: 32px;
+	text-align: center;
+	top: -28px;
+}
+
 

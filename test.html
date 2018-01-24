@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .bg {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99999;
+        }
+        .bg {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .lottery-bg {
+            width: 750px;
+        }
+        .item {
+            float: left;
+            width: 200px;
+            height: 200px;
+            margin: 0 15px;
+        }
+        .item img {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+        }
+        .item span {
+            color: #ffff00;
+            width: 100%;
+            display: block;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+<div class="bg">
+    <div class="lottery-bg">
+        <div class="item">
+            <img src="./img/items/image001.png"/>
+            <span>name1</span>
+        </div>
+        <div class="item">
+            <img src="./img/items/image002.png"/>
+            <span>name2</span>
+        </div>
+        <div class="item">
+            <img src="./img/items/image003.png"/>
+            <span>name3</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
