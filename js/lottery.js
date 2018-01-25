@@ -19,7 +19,7 @@ var cNum = 0;
 var timer = null;
 
 //总共参与抽奖的人数
-var totalperson = 192;
+var totalperson = 190;
 
 scene.css({
     width: winW + 'px',

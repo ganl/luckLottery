@@ -5,7 +5,7 @@ function drawBall(ball) {
 		between: 7, //两行之前的间隔数
 		begin: 1, //开始第一个数量
 	};
-	this.largeRows = 6; //外圈大圆数量
+	this.largeRows = 4; //外圈大圆数量
 	// this.config = {
 	// 	rows: 9, //行数
 	// 	between: 5, //两行之前的间隔数
