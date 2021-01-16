@@ -1,0 +1,28 @@
+{
+  "userList": [
+    {
+      "avatar": "//wx.qlogo.cn/mmopen/Q3auHgzwzM4xibvqiaFwKoPciaQ3nicicbwgUYnr1aG7ufhxIdA07VjT7icqMEQUiaJojlRFng2GZyoNibgoBgVORcm10g/0",
+      "name": "漂泊的秋风",
+      "sex": "男",
+      "index":"1","gonghao":"1 ","wx":"otiNSuFPDH3K03Xjg9qjYuPTEA5I"
+    },
+    {
+      "avatar": "//wx.qlogo.cn/mmopen/u55gbVdo3eTpsuOibeJ971t2Gs9u5AterdqfyesVeDnY1MKtRaSV5I2suGrGMpSia0tB4zfY27tyMjoiaxOIs2Hyg/0",
+      "name": "nancy",
+      "sex": "女",
+      "index":"2","gonghao":"2 ","wx":"cdiNSuFPDH3K03Xjg9qjYaTGBIIf"
+    },
+    {
+      "avatar": "//wx.qlogo.cn/mmopen/X4XEGYefSBT0VrcWtS81o71uxwnxklh6xXZxAU8tphEwXYoRvLGzcNVCrYyNZMqZicC9SRibDhHVTxXpXXhAXXZg/0",
+      "name": "陈昶",
+      "sex": "男",
+      "index":"3","gonghao":"3 ","wx": "otiNSuASyziWJJojaTGBIIf-UAvg"
+    },
+    {
+      "avatar": "//wx.qlogo.cn/mmopen/u55gbVdo3eSxbyjh9KazKcdRwtLH0ZGs8P9SBl0N42UWmqicfmvRGCoIvtS3vQ8HmpE4ncEDo72wD69TOumFnEdvQAuOMxzPk/0",
+      "name": "神鸟凤凰",
+      "sex": "男",
+      "index":"4","gonghao":"4 ","wx": "otiNSuHdF3mxX1pBmU5CsNC8t7Sk"
+    }
+  ]
+}
