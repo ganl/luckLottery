@@ -1,532 +1,73 @@
-/*ball.css*/
-.hide{
-	display: none;
-}
-.show{
-	display: block;
-}
-.scene{
-	width:100%;
-	height:700px;
-	position: relative;
-	perspective:1000px;
-}
-.out{
-	width:100%;
-	height:100%;
-	position: relative;
-	perspective: 1000px;
-	/*transform-style:preserve-3d;*/
-}
-.allscane{
-	width: 100%;
-	height:100%;
-	position: relative;
-}
-.ball{
-	width: 100%;
-	height:100%;
-    margin: 0 auto;
-	position: relative;
-}
-@keyframes myball{
-	0% {transform:translateZ(0px) rotateX(0deg) rotateY(0deg);}
-	25% {transform:translateZ(200px) rotateX(-15deg) rotateY(90deg);}
-	50% {transform:translateZ(-300px) rotateX(-30deg) rotateY(180deg);}
-	75% {transform:translateZ(200px) rotateX(15deg) rotateY(270deg);}
-	100% {transform:translateZ(0px) rotateX(0deg) rotateY(360deg);}
-}
-/*抽奖动画*/
-@keyframes choujiang{
-	0% {transform:rotateX(0deg) rotateY(0deg);}
-	100% {transform:rotateX(0deg) rotateY(10800deg);}
-}
-@keyframes choujiangstop{
-	0% {transform:rotateX(0deg) rotateY(0deg);}
-	100% {transform:rotateX(10800deg) rotateY(0deg);}
-}
-@keyframes choujiangScale{
-	0% {transform:scale(1,1);}
-	100% {transform:scale(1,1);}
-	/*0% {transform:scale(1,1);}
-	25% {transform:scale(1.8,1.8);}
-	50% {transform:scale(0.5,0.5);}
-	75% {transform:scale(1.8,1.8);}
-	90% {transform:scale(0.5,0.5);}
-	100% {transform:scale(1,1);}*/
-}
-@keyframes choujiangScale2{
-	0% {transform:scale(1,1);opacity: 1;}
-	100% {transform:scale(0,0);opacity: 0;}
-}
-@keyframes choujiangScale3{
-	0% {transform:scale(0,0);opacity: 0;}
-	100% {transform:scale(1,1);opacity: 1;}
-}
-.ball>li{
-	width:55px;
-	height:55px;
-	overflow: hidden;
-	box-shadow: 0 0 2px #000;
-	position: absolute;
-	transform-origin:left;
-	/*border-radius: 100%;*/
-}
-.ball>li img{
-	position: absolute;
-	width:110%;
-	height:110%;
-	left:-5%;
-	top:-5%;
+
+a {
+  color: #8ff;
 }
 
-#canvas{
-	position: fixed;
-	left:0;
-	top:0;
-	z-index:-1;
+#menu {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
 }
 
-.bonus{
-	position: absolute;
-	left:35px;
-	top:20%;
+.element {
+  width: 120px;
+  height: 160px;
+  box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
+  border: 1px solid rgba(127,255,255,0.25);
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  line-height: normal;
+  cursor: default;
 }
 
-
-.bonus .fl{
-	float: left;
-	margin-right: 15px;
+.element:hover {
+  box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+  border: 1px solid rgba(127,255,255,0.75);
 }
 
-.select-number{
-	width:84px;
-	height:110px;
-	background:transparent;
-	position: fixed;
-	right:50%;
-	top:50%;
-	color:#fff;
-	font-weight:bold;
-	transform: scale(0,0);
-	margin:-55px -42px 0 0;
-	z-index:100000;
-}
-/*号码向上移动*/
-@keyframes selectnumberanimate{
-	0% {transform:scale(0,0)  rotateY(0deg) rotateX(0deg);}
-	100% {transform:scale(1,1) rotateY(360deg) rotateX(360deg);}
-}
-
-.select-number .row{
-	display: block;
-	width:32%;
-	height:100%;
-	line-height:160px;
-	font-size:120px;
-	text-align: center;
-	float:left;
-}
-.select-number .row span{
-	display:block;
-	position: relative;
-}
-.select-number .row:not(:last-child) span:after{
-	content:"";
-	display:block;
-	width:1px;
-	height:100px;
-	float:right;
-	background:rgba(255, 96, 96, 0.34);
-	position: absolute;
-	right:0;
-	top: 32px;
-}
-.select-number .totoprow{
-	animation: movetop 1s;
-	animation-fill-mode: forwards;
-}
-
-
-.select-number.list{
-	transform: scale(.4,.4);
-	background:transparent;
-
-}
-.select-number.list .block{
-	background:transparent url('../img/hangxian.png') no-repeat left bottom;
-	background-size: 100% auto;
-	padding-left:100px;
-}
-.select-number.list .row:not(:last-child) span:after{
-	display:none;
-}
-.select-number.list .row{
-	width: 20%;	
-	font-size:80px;
-}
-
-/*号码向上移动*/
-@keyframes movetop{
-	0% {transform:translateY(0px);}
-	100% {transform:translateY(-160px);}
-}
-
-.jiangpingtext{
-	width:150px;
-	height:100px;
-	position: fixed;
-	right:25px;
-	top:10px;
-	overflow: hidden;
-	color:#fff;
-	background: url('../img/jiangping.png') no-repeat center center;
-	background-size: auto 100%;
-}
-.jiangpingtext span{
-	position: absolute;
-    left: 45px;
-    top: 40px;
-	font-size:20px;
-	font-family: '微软雅黑';
-}
-
-.star{
-	width:100%;
-	height:100%;
-	position: fixed;
-	left:0;
-	top:0;
-}
-.star .star-img{
-	position: absolute;
-	left:0;
-	top:0;
-	animation:starImgAnim 3s infinite; 
-}
-@keyframes starImgAnim{
-	0% {transform:scale(1,1)}
-	50% {transform:scale(1.5,1.5)}
-	100% {transform:translateY(1,1)}
-}
-
-.back-img{
-	position: absolute;
-	left:50%;
-	top:50%;
-	z-index:-1;
-	width:1000px;
-	height:370px;
-	margin:-185px 0 0 -500px;
-	background: url('../img/stars/back.jpg') no-repeat center center;
-	background-size: 100% 100%;
-}
-
-.begin-danmu{
-	width:100px;
-	height:100px;
-	line-height:100px;
-	position: fixed;
-	right:20px;
-	bottom:20px;
-	background: red;
-	border-radius: 100%;
-	text-align: center;
-	color:#fff;
-	z-index:10001;
-	cursor:pointer;
-}
-.content-danmu{
-	position: fixed;
-	left:0;
-	top:0;
-	width:100%;
-	height:100%;
-	background: rgba(0,0,0,.7);
-	z-index:10000;
-}
-#my-comment-stage{
-	position: absolute;
-	top:50px;
-	width:100%;
-	height:80%;
-	/*background: red;*/
-}
-#my-comment-stage .cmt{
-	position: absolute;
-	display:block;
-	height:40px;
-	padding:0 20px;
-	line-height:40px;
-	background: rgba(17,4,31,.8);
-	border-radius:40px;
-	white-space:nowrap; 
-	overflow:hidden; 
-	text-overflow:ellipsis;
-	display: flex;
-	align-items: center;
-}
-#my-comment-stage .cmt img{
-	width:30px;
-	height:30px;
-}
-
-@keyframes scaletozelo{
-	0% {transform:scale(1,1) translate;}
-	100% {transform:scale(0,0);}
-}
-
-.animate-bg {
-	position: fixed;
-	z-index: 9999;
-	top: 0;
-	width: 100%;
-	bottom: 0;
-	background: rgba(0,0,0,0.5);
-}
-
-.animate-bg {
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: rgba(0,0,0,0.5);
-	z-index: 99999;
-}
-
-
-.light {
-	position: absolute;
-	left: 50%;
-	margin-left: -530px;
-	top: 50%;
-	margin-top: -530px;
-	background: url(../img/light.png) no-repeat;
-	background-size: 100%;
-	width: 1060px;
-	height: 1060px;
-	-webkit-animation: lightRotate 5s linear infinite;
-	z-index: 9999;
-	opacity: .5;
-}
-
-@keyframes lightRotate {
-	0%  {
-		transform: rotateZ(0)
-	}
-	100% {
-		transform: rotateZ(360deg)
-	}
-}
-
-@-webkit-keyframes lightRotate {
-	0%  {
-		-webkit-transform: rotateZ(0)
-	}
-	100% {
-		-webkit-transform: rotateZ(360deg)
-	}
-}
-
-.lottery-animate-bg {
-	z-index: 9999;
-	background: url(../img/lucky-bg.png) top center no-repeat;
-	height: 680px;
-	width: 800px;
-	position: absolute;
-	left: 50%;
-	margin-left: -400px;
-	top: 50%;
-	margin-top: -340px;
-	transform: scale(0);
-	-webkit-animation: lotteryuserhead 1s forwards;
-}
-
-.lottery-animate-bg {
-	width: 1045px;
-	height: 650px;
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	margin: auto;
-	z-index: 9999;
-	/*display: -webkit-box; */
-	background: url(../img/lucky-bg.png) top center no-repeat;
-	-webkit-animation: lotteryuserhead 1s forwards;
-	text-align: center;
-}
-
-.lottery-animate-bg>div.lotteryuserhead, .lottery-animate-bg>div.lotteryuserhead2 {
-	width: 400px;
-	height: 400px;
-	position: relative;
-	left: 322px;
-	top: 76px;
-	border-radius: 100%;
-	border: 0;
-	overflow: hidden;
-}
-
-/*@-webkit-keyframes lotteryuserhead{*/
-	/*0%{transform:scale(0)}*/
-	/*10%{transform:scale(1)}*/
-	/*100%{transform:scale(1)}*/
-/*}*/
-
-@-webkit-keyframes lotteryuserhead{
-	0%{transform:scale(0)}
-	10%{transform:scale(.7)}
-	100%{transform:scale(.7)}
-}
-
-.lottery-animate-bg img {
-	width: 100%;
-	height: 100%;
-	border-radius: 100%;
-}
-
-.lottery-animate-bg>div.level {
-	background: url(../img/lucky-title.png) no-repeat;
-	width: 800px;
-	height: 181px;
-	text-align: center;
-	position: relative;
-	top: 10px;
-	color: #b96000;
-	padding-top: 16px;
-	font-size: 42px;
-}
-
-.lottery-animate-bg>div.level {
-	width: 526px;
-	height: 170px;
-	margin: auto;
-	font-size: 24px;
-	color: #fff;
-	background: url(../img/lucky-title.png) center no-repeat;
-	background-size: contain;
-}
-
-.level {
-	position: relative;
-}
-
-.lottery-animate-bg .user-name {
-	display: inline-block;
-	position: relative;
-	top: 7px;
-	max-width: 340px;
-	margin: 10px 10px 0 10px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 24px;
-	color: #fff;
-}
-
-.lottery-animate-bg .awards-name {
-	margin: 18px 0;
-	font-size: 36px;
-}
-
-.img-circle {
-    border: 2px solid #f759fe;
-	border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-div.block span {
-    text-align: center;
-    width: 100px;
-    text-overflow: ellipsis;
-    space: nowrap;
-    overflow: hidden;
-    display: block;
-    font-size: 20px;
-}
-
-div.block img{
-    width: 100px;
-    height: 100px;
-}
-
-.confirm-btn {
-	text-align: center;
-	margin-top: 20px;
-}
-
-@media screen and (max-width: 1900px) {
-	.lottery-animate-bg {
-		transform: scale(0);
-		-webkit-animation: lotteryuserhead 1s forwards;
-	}
-}
-
-#luck-list {
-    height: 580px;
-    overflow: auto;
-    width: 195px;
+  .element .number {
     position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 12px;
+    color: rgba(127,255,255,0.75);
+  }
+
+  .element .symbol {
+    position: absolute;
+    top: 40px;
+    left: 0px;
     right: 0px;
-    top: 90px;
-    z-index: 100001;
+    font-size: 60px;
+    font-weight: bold;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 0 10px rgba(0,255,255,0.95);
+  }
+
+  .element .details {
+    position: absolute;
+    bottom: 15px;
+    left: 0px;
+    right: 0px;
+    font-size: 12px;
+    color: rgba(127,255,255,0.75);
+  }
+
+button {
+  color: rgba(127,255,255,0.75);
+  background: transparent;
+  outline: 1px solid rgba(127,255,255,0.75);
+  border: 0px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+button:hover {
+  background-color: rgba(0,255,255,0.5);
 }
 
-::-webkit-scrollbar-track-piece {
-    background: 0;
-    -webkit-border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #21a2f1;
-    height: 50px;
-    -webkit-border-radius: 4px;
-}
-
-.lotteryuserhead2 {
-	-webkit-box-flex: 1;
-	/*width: 33.3%;*/
-	width: 200px;
-	height: 400px;
-	float: left;
-	left: auto;
-	margin: 0 15px;
-	background: url(../img/lucky.png) no-repeat;
-	background-size: 100% 50%;
-	text-align: center;
-}
-
-.lotteryuserhead2:before {
-	content: '';
-	width: 200px;
-	height: 200px;
-	display: block;
-	animation: lightRotate 1.2s infinite linear;
-	background: url(../img/lucky1.png)no-repeat;
-	background-size: 100% 100%;
-	z-index: 1;
-}
-
-.lotteryuserhead2 img {
-	width: 140px;
-	height: 140px;
-	margin-top: -224px;
-}
-
-.lotteryuserhead2 span.user-name {
-	line-height: 32px;
-	text-align: center;
-	top: -28px;
-}
-
-#multi-lottery {
-	display:inline-block;
+button:active {
+  color: #000000;
+  background-color: rgba(0,255,255,0.75);
 }

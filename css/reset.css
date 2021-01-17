@@ -19,9 +19,3 @@ em, i { font-style: normal; }
 ::-webkit-input-placeholder {
     color: #999;
 }
-body{
-	overflow: hidden;
-	font-family: "微软雅黑";
-	background:#250545 url('../img/background.jpg') no-repeat center 40%;
-	background-size:100% auto; 
-}

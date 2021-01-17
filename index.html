@@ -4,9 +4,11 @@
 	<meta charset="UTF-8">
 	<title>抽奖啦！！！</title>
 	<link rel="stylesheet" href="./css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/reseat.css">
-	<link rel="stylesheet" href="css/lottery.css">
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/animate.min.css">
+	<link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="./css/loading2.css">
+	<link rel="stylesheet" href="./css/style.css">
 	<style id="styles"></style>
 	<style id="styles1"></style>
 </head>
@@ -37,10 +39,10 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="jiangping">
-                    <li><a href="javascript:void(0);" onclick="setJiangPingLevel(0)">特等奖</a></li>
-                    <li><a href="javascript:void(0);" onclick="setJiangPingLevel(1)">一等奖</a></li>
-                    <li><a href="javascript:void(0);" onclick="setJiangPingLevel(2)">二等奖</a></li>
-                    <li><a href="javascript:void(0);" onclick="setJiangPingLevel(3)">三等奖</a></li>
+                    <li><a href="javascript:void(0);" onclick="setPrizeLevel(0)">特等奖</a></li>
+                    <li><a href="javascript:void(0);" onclick="setPrizeLevel(1)">一等奖</a></li>
+                    <li><a href="javascript:void(0);" onclick="setPrizeLevel(2)">二等奖</a></li>
+                    <li><a href="javascript:void(0);" onclick="setPrizeLevel(3)">三等奖</a></li>
                 </ul>
 
             </div>
@@ -64,7 +66,7 @@
             </div>
 
 
-			<button class="btn btn-lg btn-success fl" onclick="getJiangPing()"><span>开始抽奖</span></button>
+			<button class="btn btn-lg btn-success fl" onclick="setPrize()"><span>开始抽奖</span></button>
 		</div>
 	</div>
 
@@ -84,13 +86,19 @@
 		</div>
 	</div>
 
+	<!--音乐开关-->
+	<a id="music-control" class="animated infinite bounce" href="javascript:;" data-open="1"></a>
+
+	<audio id="music" loop="loop" preload="auto" src="./music/musicOfBackground.mp3">
+			你的浏览器不支持audio标签
+	</audio>
+
 	<!-- script -->
 	<script src="./js/jquery-2.1.4.min.js"></script>
 	<script src="./js/dropdown.js"></script>
-	<script src="js/lottery.js"></script>
+	<script src="js/index.js"></script>
 	<script src="./js/star.js"></script>
 	<script src="./js/drawBall.js"></script>
-	<script src="./js/CommentCoreLibrary.js"></script>
 	<script>
 		var wW=$(window).width();
 		var wH=$(window).height();
@@ -102,20 +110,33 @@
 		var userList = null;
         // 加载进度条并执行球
 		$.getJSON('user.json', {}, function (data) {
-			userList = data.userList;
-            totalperson = userList.length
-			// console.log(totalperson)
-            // 隐藏进度条
-            $('div.loading').fadeOut(1500);
-        });
+		userList = data.userList;
+			totalperson = userList.length;
+			// 隐藏进度条
+			$('div.loading').fadeOut(1500);
+		});
 
 		//显示球
-        setTimeout(function(){
-            var ball = document.getElementById("ball");
-            var balls = new drawBall(ball);
-            balls.init();
-        }, 2000);
+		setTimeout(function(){
+				var ball = document.getElementById("ball");
+				var balls = new drawBall(ball);
+				balls.init();
+		}, 2000);
 
+		var music = document.getElementById('music');
+
+		$(function(){
+			$('#music-control').removeClass('animated infinite bounce');
+			$('#music-control').click(function () {
+					if (music.paused) {
+						$('#music-control').addClass('animated infinite bounce');
+						music.play();
+					} else {
+						$('#music-control').removeClass('animated infinite bounce');
+						music.pause();
+					}
+			});
+		});
 	</script>
 </body>
 </html>

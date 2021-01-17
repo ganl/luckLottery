@@ -1,0 +1,33 @@
+html, body {
+  height: 100%;
+}
+
+body{
+	overflow: hidden;
+	font-family: "微软雅黑", Helvetica, sans-serif;
+	background:#250545 url('../img/background.jpg') no-repeat center 40%;
+  background-size:100% auto;
+}
+
+
+#music-control {
+  z-index: 99;
+  position: fixed;
+  bottom: 3%;
+  left: 0.5%;
+  width: 3rem;
+  height: 3rem;
+  background: url("../img/music.png") 0 0 no-repeat;
+  background-size: contain;
+}
+
+#clear-control {
+  z-index: 99;
+  position: fixed;
+  bottom: 3%;
+  right: 0.5%;
+  width: 3rem;
+  height: 3rem;
+  background: url("../img/clear.png") 0 0 no-repeat;
+  background-size: contain;
+}

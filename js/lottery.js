@@ -1,445 +1,429 @@
-/*ball.js*/
-var scene = $('div.scene');
-var winW = $(window).width();
-var winH = $(window).height();
+const table = [
+  "H", "Hydrogen", "1.00794", 1, 1,
+  "He", "Helium", "4.002602", 18, 1,
+  "Li", "Lithium", "6.941", 1, 2,
+  "Be", "Beryllium", "9.012182", 2, 2,
+  "B", "Boron", "10.811", 13, 2,
+  "C", "Carbon", "12.0107", 14, 2,
+  "N", "Nitrogen", "14.0067", 15, 2,
+  "O", "Oxygen", "15.9994", 16, 2,
+  "F", "Fluorine", "18.9984032", 17, 2,
+  "Ne", "Neon", "20.1797", 18, 2,
+  "Na", "Sodium", "22.98976...", 1, 3,
+  "Mg", "Magnesium", "24.305", 2, 3,
+  "Al", "Aluminium", "26.9815386", 13, 3,
+  "Si", "Silicon", "28.0855", 14, 3,
+  "P", "Phosphorus", "30.973762", 15, 3,
+  "S", "Sulfur", "32.065", 16, 3,
+  "Cl", "Chlorine", "35.453", 17, 3,
+  "Ar", "Argon", "39.948", 18, 3,
+  "K", "Potassium", "39.948", 1, 4,
+  "Ca", "Calcium", "40.078", 2, 4,
+  "Sc", "Scandium", "44.955912", 3, 4,
+  "Ti", "Titanium", "47.867", 4, 4,
+  "V", "Vanadium", "50.9415", 5, 4,
+  "Cr", "Chromium", "51.9961", 6, 4,
+  "Mn", "Manganese", "54.938045", 7, 4,
+  "Fe", "Iron", "55.845", 8, 4,
+  "Co", "Cobalt", "58.933195", 9, 4,
+  "Ni", "Nickel", "58.6934", 10, 4,
+  "Cu", "Copper", "63.546", 11, 4,
+  "Zn", "Zinc", "65.38", 12, 4,
+  "Ga", "Gallium", "69.723", 13, 4,
+  "Ge", "Germanium", "72.63", 14, 4,
+  "As", "Arsenic", "74.9216", 15, 4,
+  "Se", "Selenium", "78.96", 16, 4,
+  "Br", "Bromine", "79.904", 17, 4,
+  "Kr", "Krypton", "83.798", 18, 4,
+  "Rb", "Rubidium", "85.4678", 1, 5,
+  "Sr", "Strontium", "87.62", 2, 5,
+  "Y", "Yttrium", "88.90585", 3, 5,
+  "Zr", "Zirconium", "91.224", 4, 5,
+  "Nb", "Niobium", "92.90628", 5, 5,
+  "Mo", "Molybdenum", "95.96", 6, 5,
+  "Tc", "Technetium", "(98)", 7, 5,
+  "Ru", "Ruthenium", "101.07", 8, 5,
+  "Rh", "Rhodium", "102.9055", 9, 5,
+  "Pd", "Palladium", "106.42", 10, 5,
+  "Ag", "Silver", "107.8682", 11, 5,
+  "Cd", "Cadmium", "112.411", 12, 5,
+  "In", "Indium", "114.818", 13, 5,
+  "Sn", "Tin", "118.71", 14, 5,
+  "Sb", "Antimony", "121.76", 15, 5,
+  "Te", "Tellurium", "127.6", 16, 5,
+  "I", "Iodine", "126.90447", 17, 5,
+  "Xe", "Xenon", "131.293", 18, 5,
+  "Cs", "Caesium", "132.9054", 1, 6,
+  "Ba", "Barium", "132.9054", 2, 6,
+  "La", "Lanthanum", "138.90547", 4, 9,
+  "Ce", "Cerium", "140.116", 5, 9,
+  "Pr", "Praseodymium", "140.90765", 6, 9,
+  "Nd", "Neodymium", "144.242", 7, 9,
+  "Pm", "Promethium", "(145)", 8, 9,
+  "Sm", "Samarium", "150.36", 9, 9,
+  "Eu", "Europium", "151.964", 10, 9,
+  "Gd", "Gadolinium", "157.25", 11, 9,
+  "Tb", "Terbium", "158.92535", 12, 9,
+  "Dy", "Dysprosium", "162.5", 13, 9,
+  "Ho", "Holmium", "164.93032", 14, 9,
+  "Er", "Erbium", "167.259", 15, 9,
+  "Tm", "Thulium", "168.93421", 16, 9,
+  "Yb", "Ytterbium", "173.054", 17, 9,
+  "Lu", "Lutetium", "174.9668", 18, 9,
+  "Hf", "Hafnium", "178.49", 4, 6,
+  "Ta", "Tantalum", "180.94788", 5, 6,
+  "W", "Tungsten", "183.84", 6, 6,
+  "Re", "Rhenium", "186.207", 7, 6,
+  "Os", "Osmium", "190.23", 8, 6,
+  "Ir", "Iridium", "192.217", 9, 6,
+  "Pt", "Platinum", "195.084", 10, 6,
+  "Au", "Gold", "196.966569", 11, 6,
+  "Hg", "Mercury", "200.59", 12, 6,
+  "Tl", "Thallium", "204.3833", 13, 6,
+  "Pb", "Lead", "207.2", 14, 6,
+  "Bi", "Bismuth", "208.9804", 15, 6,
+  "Po", "Polonium", "(209)", 16, 6,
+  "At", "Astatine", "(210)", 17, 6,
+  "Rn", "Radon", "(222)", 18, 6,
+  "Fr", "Francium", "(223)", 1, 7,
+  "Ra", "Radium", "(226)", 2, 7,
+  "Ac", "Actinium", "(227)", 4, 10,
+  "Th", "Thorium", "232.03806", 5, 10,
+  "Pa", "Protactinium", "231.0588", 6, 10,
+  "U", "Uranium", "238.02891", 7, 10,
+  "Np", "Neptunium", "(237)", 8, 10,
+  "Pu", "Plutonium", "(244)", 9, 10,
+  "Am", "Americium", "(243)", 10, 10,
+  "Cm", "Curium", "(247)", 11, 10,
+  "Bk", "Berkelium", "(247)", 12, 10,
+  "Cf", "Californium", "(251)", 13, 10,
+  "Es", "Einstenium", "(252)", 14, 10,
+  "Fm", "Fermium", "(257)", 15, 10,
+  "Md", "Mendelevium", "(258)", 16, 10,
+  "No", "Nobelium", "(259)", 17, 10,
+  "Lr", "Lawrencium", "(262)", 18, 10,
+  "Rf", "Rutherfordium", "(267)", 4, 7,
+  "Db", "Dubnium", "(268)", 5, 7,
+  "Sg", "Seaborgium", "(271)", 6, 7,
+  "Bh", "Bohrium", "(272)", 7, 7,
+  "Hs", "Hassium", "(270)", 8, 7,
+  "Mt", "Meitnerium", "(276)", 9, 7,
+  "Ds", "Darmstadium", "(281)", 10, 7,
+  "Rg", "Roentgenium", "(280)", 11, 7,
+  "Cn", "Copernicium", "(285)", 12, 7,
+  "Nh", "Nihonium", "(286)", 13, 7,
+  "Fl", "Flerovium", "(289)", 14, 7,
+  "Mc", "Moscovium", "(290)", 15, 7,
+  "Lv", "Livermorium", "(293)", 16, 7,
+  "Ts", "Tennessine", "(294)", 17, 7,
+  "Og", "Oganesson", "(294)", 18, 7
+];
 
-//运动旋转音效
-var runingmic=document.getElementById("runingmic");
-runingmic.volume=0.5;
-//中奖音效
-var pausemic=document.getElementById("pausemic");
-pausemic.volume=1.0;
+const ROTATE_TIME = 3000;
+let camera, scene, renderer, controls, composer;
+var hblur, vblur;
+let targets = {simple: [], table: [], sphere: [], helix: [], grid: []};
 
-var levelType = -1;
-var luckNum = 0;
+init();
+animate();
 
-var running = false;
-var cNum = 0;
+function init() {
 
-var timer = null;
+  initCamera();
 
-//总共参与抽奖的人数
-var totalperson = 190;
+  initScene();
 
-scene.css({
-    width: winW + 'px',
-    height: winH + 'px'
-});
+  initObjects();
 
-/*-----------------------------初始化抽奖数据---------------------------------------*/
+  addClickListeners();
 
-var initdatas = localStorage.getItem('initdatas') ? JSON.parse(localStorage.getItem('initdatas')) : [];
-if (!initdatas.length) {
-    for (var i = 1; i <= totalperson; i++) { // store index
-        if (i < 10) {
-            initdatas.push('00' + i);
-        } else if (i < 100) {
-            initdatas.push('0' + i);
-        } else {
-            initdatas.push(i + '');
-        }
-    }
+  initRenderer();
 
-    localStorage.setItem('initdatas', JSON.stringify(initdatas))
+  initTrackbarControls();
+
+  transform(targets.table, 2000);
+
+  window.addEventListener('resize', onWindowResize, false);
+
+}
+
+function initCamera() {
+
+  camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+  camera.position.z = 3000;
+
+}
+
+function initScene() {
+
+  scene = new THREE.Scene();
+
+  //坐标轴辅助  
+  var axes = new THREE.AxisHelper(500);
+  scene.add(axes);
+  var ambient = new THREE.AmbientLight( 0x444444 );
+  scene.add( ambient );
+}
+
+function initRenderer() {
+
+  renderer = new THREE.CSS3DRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById('container').appendChild(renderer.domElement);
+}
+
+function initObjects() {
+
+  simpleObjectsLayout();
+  generateGeometricLayouts();
+
+}
+
+function addClickListeners() {
+
+  addClickListener(targets.table, 'table');
+  addClickListener(targets.sphere, 'sphere');
+  addClickListener(targets.helix, 'helix');
+  addClickListener(targets.grid, 'grid');
+
+}
+
+function simpleObjectsLayout() {
+
+  for (let i = 0; i < table.length; i += 5) {
+
+      let object = new THREE.CSS3DObject(htmlElement(table, i));
+      object.position.x = Math.random() * 4000 - 2000;
+      object.position.y = Math.random() * 4000 - 2000;
+      object.position.z = Math.random() * 4000 - 2000;
+
+      scene.add(object);
+      targets.simple.push(object);
+      tableLayout(table, i);
+
+  }
+
+}
+
+function htmlElement(table, i) {
+  let element = document.createElement('div');
+  element.className = 'element';
+  element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
+
+  let number = document.createElement('div');
+  number.className = 'number';
+  number.textContent = (i / 5) + 1;
+  element.appendChild(number);
+
+  let symbol = document.createElement('div');
+  symbol.className = 'symbol';
+  symbol.textContent = table[i];
+  element.appendChild(symbol);
+
+  let details = document.createElement('div');
+  details.className = 'details';
+  details.innerHTML = table[i + 1] + '<br>' + table[i + 2];
+  element.appendChild(details);
+
+  element.addEventListener('click', ()=>elementClickHandler(i), false);
+
+  return element;
+}
+
+function elementClickHandler(i){
+  transform(targets.table, 1000);
+
+  new TWEEN.Tween(targets.simple[i / 5].position)
+      .to({
+          x: 0,
+          y: 0,
+          z: 2500
+      }, Math.random() * 2000 + 2000)
+      .easing(TWEEN.Easing.Exponential.InOut)
+      .start();
+
+  new TWEEN.Tween(this)
+      .to({}, 2000 * 2)
+      .onUpdate(render)
+      .start();
+}
+
+function tableLayout(table, index) {
+
+  let object = new THREE.Object3D();
+
+  object.position.x = (table[index + 3] * 140) - 1330;
+  object.position.y = -(table[index + 4] * 180) + 990;
+  targets.table.push(object);
+}
+
+function addClickListener(target, elementId) {
+  const button = document.getElementById(elementId);
+  button.addEventListener('click', function () {
+      transform(target, 2000);
+  }, false);
+}
+
+function initTrackbarControls() {
+  controls = new THREE.TrackballControls(camera, renderer.domElement);
+  controls.rotateSpeed = 0.5;
+  controls.minDistance = 500;
+  controls.maxDistance = 6000;
+  controls.addEventListener('change', render);
+}
+
+function generateGeometricLayouts() {
+
+  let sphereVector = new THREE.Vector3();
+  let helixVector = new THREE.Vector3();
+
+  for (let i = 0, l = targets.simple.length; i < l; i++) {
+      addSphereObject(sphereVector, i, l);
+      addHelixObject(helixVector, i);
+      addGridObject(i);
+  }
+
+}
+
+function addSphereObject(sphereVector, index, length) {
+
+  const phi = Math.acos(-1 + (2 * index) / length);
+  const theta = Math.sqrt(length * Math.PI) * phi;
+  let object = new THREE.Object3D();
+
+  object.position.setFromSphericalCoords(800, phi, theta);
+
+  sphereVector.copy(object.position).multiplyScalar(2);
+
+  object.lookAt(sphereVector);
+
+  targets.sphere.push(object);
+}
+
+function addHelixObject(helixVector, index) {
+
+  const theta = index * 0.175 + Math.PI;
+  const y = -(index * 8) + 450;
+  let object = new THREE.Object3D();
+
+  object.position.setFromCylindricalCoords(900, theta, y);
+
+  helixVector.x = object.position.x * 2;
+  helixVector.y = object.position.y;
+  helixVector.z = object.position.z * 2;
+
+  object.lookAt(helixVector);
+
+  targets.helix.push(object);
+}
+
+function addGridObject(index) {
+
+  let object = new THREE.Object3D();
+  object.position.x = ((index % 5) * 400) - 800;
+  object.position.y = (-(Math.floor(index / 5) % 5) * 400) + 800;
+  object.position.z = (Math.floor(index / 25)) * 1000 - 2000;
+  targets.grid.push(object);
+
+}
+
+function transform(target, duration) {
+
+  TWEEN.removeAll();
+
+  for (let i = 0; i < targets.simple.length; i++) {
+      let object = targets.simple[i];
+      let targetObject = target[i];
+      transformObjectPosition(object, targetObject, duration);
+      transformObjectRotation(object, targetObject, duration);
+  }
+
+  new TWEEN.Tween(this)
+      .to({}, duration * 2)
+      .onUpdate(render)
+      .start();
+
+}
+
+function transformObjectPosition(object, targetObject, duration) {
+
+  new TWEEN.Tween(object.position)
+      .to({
+          x: targetObject.position.x,
+          y: targetObject.position.y,
+          z: targetObject.position.z
+      }, Math.random() * duration + duration)
+      .easing(TWEEN.Easing.Exponential.InOut)
+      .start();
+
+}
+
+function transformObjectRotation(object, targetObject, duration) {
+
+  new TWEEN.Tween(object.rotation)
+      .to({
+          x: targetObject.rotation.x,
+          y: targetObject.rotation.y,
+          z: targetObject.rotation.z
+      }, Math.random() * duration + duration)
+      .easing(TWEEN.Easing.Exponential.InOut)
+      .start();
+
+}
+
+function onWindowResize() {
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  render();
+
+}
+
+function render() {
+
+  renderer.render(scene, camera);
+
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  TWEEN.update();
+  controls.update();
+  // composer.render();
 }
 
 
-/*-----------------------------------开始抽奖-----------------------------------------*/
-var one = $('#one');
-var two = $('#two');
-var three = $('#three');
-var ball = $('#ball');
-var out = $('div.out');
-var selectnumber = $('div.select-number');
-var totalClass = [];
-var allClass = [];
-var firstType = "";
+function rotateBall() {
+  
+  transform(targets.sphere, 1000);
 
-var levelTypeTitle = ['特等奖', '一等奖', '二等奖', '三等奖', '幸运奖'];
-var LuckNumTitle = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-//已中奖的号码
-var isWinningeds = localStorage.getItem('isWinningeds') ? JSON.parse(localStorage.getItem('isWinningeds')) : [];
-var isWinningedsJson = localStorage.getItem('isWinningedsJson') ? JSON.parse(localStorage.getItem('isWinningedsJson')) : [];
-
-// 根据参数获得随机数
-function getNumberForRadom(max, min) {
-    return parseInt(Math.random() * ((max - min) + 1));
-}
-
-//获得中奖号码
-function winningFn(type) {
-    console.log(JSON.stringify(isWinningeds.sort(function (x, y) {
-        return x - y
-    })));
-    var oneth = getNumberForRadom(9, 0); //个位
-    var twoth = getNumberForRadom(9, 0); //十位
-
-    var threeth = parseInt(oneth + twoth * 10); //十位
-    var baith = totalperson.toString().substr(1, 2); //切取后面两位数
-
-    var isrepeat = false; //是否中过奖
-
-    // 中奖的索引号
-    var winningeIndex = 0;
-
-    //中奖号码索引
-    if (threeth >= baith) {
-        winningeIndex = getNumberForRadom(0, 0) * 100 + threeth
-    } else {
-        winningeIndex = getNumberForRadom(1, 0) * 100 + threeth
-    }
-
-    if(isWinningeds.length >= totalperson){
-        alert('剩余抽奖人数不足！！！ 请清空浏览器缓存，再重新开始');
-        return false;
-    }
-
-    // 判断是否是重复中奖号码
-    if (isWinningeds && isWinningeds.length) {
-        for (var i = 0; i < isWinningeds.length; i++) {
-            if (isWinningeds[i] === winningeIndex) {
-                isrepeat = true;
-                console.log(winningeIndex + '--- repeat ------------- re-random --------');
-            }
-        }
-    }
-
-    if (isrepeat) {
-        return winningFn(type);
-    } else {
-        // 保存已经中奖的号码
-        isWinningeds.push(winningeIndex);
-        localStorage.setItem('isWinningeds', JSON.stringify(isWinningeds))
-        isWinningedsJson.push({
-            type: type,
-            name: userList[winningeIndex].name,
-            value: initdatas[winningeIndex]
-        });
-        localStorage.setItem('isWinningedsJson', JSON.stringify(isWinningedsJson))
-        console.log('winningFn ' + winningeIndex, initdatas[winningeIndex]);
-        return winningeIndex
-    }
-}
-
-// 中奖翻牌HTML
-function showHaveHTML(type) {
-    console.log(firstType, type)
-    // 判断是否换了抽奖等级
-    if (firstType !== '' && firstType != type) {
-        scene.find('div.select-number').remove();
-    }
-
-    var selectNumbers = scene.find('div.select-number');
-    if (!selectNumbers.length) {
-
-        showJiangText(type); //显示标题
-
-        var html = ""
-        var newArr = [];
-        if (isWinningedsJson && isWinningedsJson.length) {
-            for (var i = 0; i < isWinningedsJson.length; i++) {
-                if (isWinningedsJson[i].type == type) {
-                    newArr.push(isWinningedsJson[i])
-                }
-            }
-        }
-        if (newArr && newArr.length) {
-            for (var i = 0; i < newArr.length; i++) {
-                html += '<div class="select-number list" style="right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative">\
-						<div class="block">\
-                            <img src="./img/items/image' + ( '0000' + (userList[(parseInt(newArr[i].value) % totalperson)].index) ).slice(-3) + '.png" class="img-circle">\
-                            <span>' + userList[(parseInt(newArr[i].value) % totalperson)].name + '</span>\
-						</div>\
-					</div>';
-            }
-        }
-        $('#luck-list').append(html);
-        // scene.append(html);
-    }
-}
-
-function setJiangPingLevel(level) {
-    levelType = level;
-    cNum = 0; // 清零
-    var $levelType = $('#levelType');
-
-    $levelType.html(levelTypeTitle[levelType]);
-}
-
-function setLuckNum(num) {
-    cNum = 0; // 清零
-    luckNum = num;
-    var $luckNum = $('#lucknum');
-
-    $luckNum.html(LuckNumTitle[luckNum]);
-}
-
-// 开始抽奖
-function getJiangPing() {
-
-    var type = -1;
-    if (levelType == -1) {
-        alert('请选择奖项类型');
-        return;
-    } else {
-        type = levelType;
-    }
-
-    if(luckNum == 0){
-        alert('请选择中奖人数');
-        return;
-    }
-
-    //显示已经中奖的号码
-    console.log(JSON.stringify(isWinningedsJson));
-    showHaveHTML(type);
-
-    // 是否显示获奖标题
-    showJiangText(type);
-    firstType = type;
-
-    var personArrObj = [];
-
-    if(running) { // if running, then stop it. and get the lucky man
-
-        $('button.btn-success').attr('disabled', true);
-
-        for(var i = 0; i < luckNum; i++) {
-            /*------------------------------抽奖开始------------------------------------*/
-
-            // 中奖号码
-            var winninge = initdatas[winningFn(type)];
-            console.log('getJiangPing ' + winninge);
-
-            // 塞入中奖html
-            var zhongjiangclass = randomString(6);
-
-            // 界面上显示中奖号码
-            getHTML(winninge, zhongjiangclass);
-
-            // 打印中奖号码和索引
-            console.log('中奖的索引(array下标):' + winninge);
-
-            /*------------------------------抽奖结束------------------------------------*/
-
-            // 存入数组
-            allClass.push({
-                classname: zhongjiangclass,
-                type: type
-            });
-            totalClass.push({
-                classname: zhongjiangclass,
-                type: type
-            });
-
-            // 生成抽奖右移动画
-            var keyframes = "@keyframes " + zhongjiangclass + "{\
-				0% {opacity:1;right:50%;top:50%;transform: scale(1,1);margin:-100px -240px 0 0;}\
-				50%{opacity:0.1;}\
-				100% {opacity:1;right:10px;top:0px;transform: scale(0.6,0.6);margin:0;position:relative;}\
-			}";
-            $('#styles').append(keyframes);
-
-
-            // var imgUrl = userList[(parseInt(winninge) % totalperson)].avatar;
-            var imgUrl = './img/items/image' + ( '0000' + (userList[(winninge % totalperson)].index) ).slice(-3) + '.png';
-            var userName = userList[(parseInt(winninge) % totalperson)].name
-
-            personArrObj.push({imgurl: imgUrl, username: userName, zhongjiangclass: zhongjiangclass});
-
-        }
-
-
-        runingmic.pause();
-
-        $('#ball').css({
-            'animation-play-state': 'paused',
-            // animation: 'none'
-            animation: 'choujiang 4s cubic-bezier(0.025, 0.735, 0.025, 0.990) 1 forwards'
-        });
-
-        $('#ball').one("animationend", function () {
-            out.css({
-                animation: 'choujiangScale2 2s 4s forwards'
-            });
-        });
-
-        out.one("animationend", function () {
-            showLuckAnimate(levelTypeTitle[levelType], personArrObj);
-        });
-
-
-        // if(luckNum == cNum) { // 一次抽奖的人数已经达到，允许下次抽奖
-        //     running = false;
-        //     $('button.dropdown-toggle').attr('disabled', false);
-        //     $('button.btn-success').text('开始抽奖');
-        //     $('button.btn-success').removeAttr("disabled");
-        // }
-
-        return true;
-
-    }
-
-
-    // 禁止改变抽奖条件
-    $('button.dropdown-toggle').attr('disabled', true);
-    $('button.btn-success').text('停止抽奖');
-    running = true;
-
-    runingmic.currentTime = 0;
-    runingmic.play();
-
-    // 动起来， 100次
-    $('#ball').css({
-        // animation: 'choujiang 4s cubic-bezier(0.025, 0.735, 0.025, 0.990) 1 forwards'
-        animation: 'choujiang 4s cubic-bezier(0, 0, 0.990, 0.990) 100 forwards'
+  scene.rotation.y = 0;
+  new TWEEN.Tween(scene.rotation)
+    .to(
+      {
+        y: Math.PI * 8
+      },
+      ROTATE_TIME
+    )
+    .onUpdate(render)
+    .easing(TWEEN.Easing.Exponential.InOut)
+    .start()
+    .onComplete(() => {
+      console.log('completed')
     });
 
-}
+  // new TWEEN.Tween(targets.simple[4].position)
+  // .to({
+  //     x: 0,
+  //     y: 0,
+  //     z: 2500
+  // }, Math.random() * 2000 + 2000)
+  // .easing(TWEEN.Easing.Exponential.InOut)
+  // .start();
 
-// 显示获奖标题
-function showJiangText(type) {
-    if (scene.find('div.select-number').length) {
-        $('#jiangpingsspan').text(levelTypeTitle[type]);
-        $('div.jiangpingtext').addClass('show').removeClass('hide');
-    } else {
-        $('div.jiangpingtext').addClass('hide').removeClass('show');
-    }
-}
-
-//显示中奖动画
-function showLuckAnimate(showLevel, personObj) {
-    //播放中奖音效
-    pausemic.currentTime = 0;
-    pausemic.play();
-
-    var zhongjiangclasses = [];
-
-    if(luckNum > 1){
-        scene.append('<div class="animate-bg"><div class="lottery-animate-bg"><div id="multi-lottery"></div>');
-        for(var i = 0; i < luckNum; i++) {
-            $('#multi-lottery').append('<div class="lotteryuserhead2"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
-            zhongjiangclasses.push(personObj[i].zhongjiangclass);
-        }
-
-        $('.lottery-animate-bg').append('<div class="clearfix"></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ zhongjiangclasses.join(',') +'\')"><span id="confirmWin">确定</span></button></div>');
-    } else {
-        scene.append('<div class="animate-bg"><div class="light"></div><div class="lottery-animate-bg"><div class="lotteryuserhead"><img src="' + personObj[0].imgurl + '"/></div><div class="level">恭喜<span class="user-name">' + personObj[0].username + '</span>获得<p class="awards-name">' + showLevel + '</p></div><div class="confirm-btn"><button class="btn btn-lg btn-success fl" onclick="confirmJiangPing(\''+ personObj[0].zhongjiangclass +'\')"><span id="confirmWin">确定</span></button></div></div>');
-    }
-    // setTimeout(function () {
-    //     $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
-    //         $(".animate-bg").remove();
-    //     });
-    // }, 5000);
-    // console.log(luckNum)
-    // if(luckNum > 1){
-    //     confirmWin
-    //     var count = 3;
-    //     countDown(count, zhongjiangclass)
-    // }
-
-}
-
-function countDown(val, zhongjiangclass) {
-    if(val == 0) {
-        confirmJiangPing(zhongjiangclass);
-        return true;
-    } else {
-        $('#confirmWin').text('自动抽('+ val +'s)');
-        val--;
-    }
-    timer = setTimeout(function() {
-        countDown(val, zhongjiangclass)
-    }, 1000)
-}
-
-// 中奖翻牌HTML
-function getHTML(number, classname) {
-    console.log(userList[(parseInt(number) % totalperson)]);
-    var html = '<div class="select-number ' + classname + '">\
-                <div class="block">\
-                    <img src="./img/items/image' + ( '0000' + (userList[(number % totalperson)].index) ).slice(-3) + '.png" class="img-circle">\
-                    <span>' + userList[(parseInt(number) % totalperson)].name + '</span>\
-				</div>\
-		</div>';
-    $('#luck-list').append(html);
-    // scene.append(html);
-}
-
-function confirmJiangPing(zhongjiangclass) {
-
-    var zjclass = zhongjiangclass.split(',');
-
-    // 中奖动画移除
-    $(".animate-bg").animate({"opacity": "0"}, "slow", function () {
-        $(".animate-bg").remove();
-    });
-
-    zjclass.forEach(function (value) {
-
-        // 翻牌
-        $('div.' + value).css({
-            animation: 'selectnumberanimate 1s forwards'
-        });
-
-
-        // 移动奖牌
-        $('div.' + value).one("animationend", function () {
-
-            $('div.' + value).css({
-                animation: value + ' 2s forwards'
-            });
-
-            setTimeout(function () {
-                $('div.' + value).addClass('list');
-            }, 1000);
-
-            // 球放大并恢复运转
-            setTimeout(function () {
-                out.css({
-                    animation: 'choujiangScale3 2s forwards'
-                });
-
-                // 球恢复运行
-                $('#ball').css({
-                    animation: 'myball 50s linear infinite'
-                });
-            }, 1000);
-
-            // 运动完成自动继续抽奖
-            $('div.' + value).one("animationend", function () {
-                var luck_list = document.getElementById('luck-list');
-                luck_list.scrollTop = luck_list.scrollHeight;
-                running = false;
-                $('button.dropdown-toggle').attr('disabled', false);
-                $('button.btn-success').text('开始抽奖');
-                $('button.btn-success').removeAttr("disabled");
-            });
-
-
-
-            // 清除动画
-            // out.css({
-            // 	animation: 'none',
-            // });
-
-            // 是否显示获奖标题
-            showJiangText(levelType);
-        });
-    });
-
-}
-
-/*生成随机字符串*/
-function randomString(len) {
-    len = len || 32;
-    var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz';
-    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-    var maxPos = $chars.length;
-    var pwd = '';
-    for (i = 0; i < len; i++) {
-        pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-    }
-    return pwd;
+  // new TWEEN.Tween(this)
+  //     .to({}, 2000 * 2)
+  //     .onUpdate(render)
+  //     .start();
 }

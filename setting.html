@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>奖品</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="js/element-ui@2.15.0/lib/theme-chalk/index.css"/>
+    <script src="js/polyfill.min.js"></script>
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+      .el-input {
+        width: 120px;
+      }
+      .el-table {
+        margin-bottom: 10px;
+      }
+      * {
+        cursor: initial;
+      }
+      .prizes,
+      .user-list {
+        width: 90%;
+        margin: auto;
+        margin-top: 50px;
+      }
+      h1 {
+        font-size: 30px;
+        text-align: center;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      h1 span {
+        font-size: 16px;
+      }
+      a {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <el-row :gutter="20">
+        <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12">
+          <div class="prizes">
+            <h1>奖项设置 <span>（双击对应项可以编辑）</span></h1>
+            <el-table :data="prizesData" style="width: 100%">
+              <el-table-column
+                :prop="item.prop"
+                :label="item.label"
+                :width="item.width"
+                v-for="(item, index) in prizeColumns"
+                :key="index">
+                <template slot-scope="scope">
+                  <div>
+                    <div v-if="scope.row.editing[item.prop]">
+                      <el-input
+                        size="mini"
+                        v-model="scope.row[item.prop]"
+                        @blur="onSaveCell(scope.row, item.prop)"
+                      ></el-input>
+                    </div>
+                    <div
+                      v-else
+                      @dblclick="onEditCell(scope.row, item.prop, $event)"
+                    >
+                      {{ scope.row[item.prop] || '(请填写)' }}
+                    </div>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                    size="small"
+                    @click="onAdd(scope.row, scope.$index)"
+                    type="primary"
+                    >增加</el-button
+                  >
+                  <el-button
+                    size="small"
+                    @click="onRemove(scope.row, scope.$index)"
+                    type="danger"
+                    >删除</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button
+              size="small"
+              type="primary"
+              @click="onAdd(null, -1)"
+              v-show="prizesData.length===0"
+              >增加</el-button
+            >
+          </div>
+          <el-row :gutter="20">
+            <el-col :span="12" :offset="6">
+              <el-button size="small" type="danger" @click="onReset">重置中奖结果</el-button>
+              <a href="./lottery.html">去抽奖</a>
+              <a href="./index.html">去看弹幕</a>
+            </el-col>
+          </el-row>
+        </el-col>
+
+        <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12">
+          <div class="user-list">
+            <h1>参会人员列表(共{{userList.length}}人)</h1>
+            <el-table :data="userList" style="width: 100%" stripe>
+              <el-table-column
+                :prop="item.prop"
+                :label="item.label"
+                width="180"
+                v-for="(item, index) in userColumns"
+                :key="index"
+              >
+                <template slot-scope="scope">
+                  <div>
+                    <div v-if="scope.row.editing[item.prop]">
+                      <el-input
+                        size="mini"
+                        v-model="scope.row[item.prop]"
+                        @blur="onSaveCell(scope.row, item.prop)"
+                      ></el-input>
+                    </div>
+                    <div
+                      v-else
+                      @dblclick="onEditCell(scope.row, item.prop, $event)"
+                    >
+                      {{ scope.row[item.prop] || '(请填写)' }}
+                    </div>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="address" label="操作">
+                <template slot-scope="scope">
+                  <el-button
+                    size="small"
+                    @click="onRemoveUser(scope.row, scope.$index)"
+                    type="danger"
+                    >删除</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button size="small" @click="onAddUser" type="primary"
+              >增加</el-button
+            >
+            <el-button size="small" type="warning" @click="onImport">重置</el-button>
+          </div>
+        </el-col>
+      </el-row>
+
+    </div>
+  </body>
+  <script src="js/vue@2.6.12.js"></script>
+  <script src="js/element-ui@2.15.0/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        prizeColumns: [
+          {
+            prop: 'name',
+            label: '名称',
+            width: 180
+          },
+          {
+            prop: 'count',
+            label: '数量',
+            width: 80
+          },
+          {
+            prop: 'prize',
+            label: '奖品',
+            width: 200
+          },
+        ],
+        userColumns: [
+          {
+            prop: 'id',
+            label: '工号',
+          },
+          {
+            prop: 'name',
+            label: '姓名',
+          },
+          {
+            prop: 'avatar',
+            label: '头像',
+          },
+        ],
+        prizesData: [
+        ],
+        userList: [],
+      },
+      computed: {
+        prizes: function() {
+          return this.prizesData
+            .filter(function(item) {
+              return item.name && item.count;
+            })
+            .map(function(item) {
+              return {
+                name: item.name,
+                count: item.count,
+                prize: item.prize,
+              };
+            });
+        },
+        users: function() {
+          return this.userList
+            .filter(function(item) {
+              return item.name && item.gonghao;
+            })
+            .map(function(item) {
+              return {
+                name: item.name,
+                gonghao: item.gonghao,
+                avatar: item.avatar
+              };
+            });
+        },
+      },
+      methods: {
+        onReset: function() {
+          var vm = this;
+          this.$confirm(
+            '重置会清空所有抽奖结果，无法撤销！',
+            '确定要重置吗？',
+            {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }
+          ).then(function() {
+            localStorage.removeItem('players');
+            localStorage.removeItem('result');
+          });
+        },
+        onSaveCell: function(row, key) {
+          this.$set(row.editing, key, false);
+          this.saveData();
+        },
+        onEditCell: function(row, key, e) {
+          this.$set(row.editing, key, true);
+          const parent = e.target.parentNode;
+          this.$nextTick(function() {
+            // console.log(parent.innerHTML, row)
+            parent.querySelector('input').focus();
+          });
+        },
+        onAdd: function(row, index) {
+          this.prizesData.splice(index + 1, 0, {
+            editing: {
+              name: true,
+            },
+          });
+        },
+        onRemove: function(row, index) {
+          this.prizesData.splice(index, 1);
+          this.saveData();
+        },
+        onAddUser: function() {
+          this.userList.push({
+            editing: {
+              name: true,
+            },
+          });
+        },
+        onRemoveUser: function(row, index) {
+          var vm = this;
+          this.$confirm('删除不可撤销！可重新添加', '确定删除吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }).then(function() {
+            vm.userList.splice(index, 1);
+            vm.saveData();
+          });
+        },
+        onImport: function() {
+          var vm = this;
+          this.$confirm('重新导入会覆盖现有人员列表', '确定重置吗？', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }).then(function() {
+            fetch("user.json")
+            .then(response => response.json())
+            .then(json => { 
+              vm.userList = (json.userList || []).map(function(item) {
+                return {
+                  name: item.name,
+                  gonghao: item.gonghao,
+                  editing: {},
+                };
+              });
+              vm.saveData();
+            });
+          });
+        },
+        saveData: function() {
+          localStorage.setItem('prizes', JSON.stringify(this.prizes));
+          localStorage.setItem('users', JSON.stringify(this.users));
+        },
+      },
+      created: function() {
+        var prizes = JSON.parse(localStorage.getItem('prizes')) || [
+          {
+            name: '三等奖',
+            prize: '办公室一日游',
+            count: 50,
+          },
+          {
+            name: '二等奖',
+            prize: '万科一日游',
+            count: 15,
+          },
+          {
+            name: '一等奖',
+            prize: '浦江一日游',
+            count: 7,
+          },
+          {
+            name: '特等奖',
+            prize: '上海一日游',
+            count: 2,
+          },
+        ];
+        this.prizesData = prizes.map(function(item) {
+          return {
+            name: item.name,
+            count: item.count,
+            prize: item.prize,
+            editing: {},
+          };
+        });
+
+        var users = JSON.parse(localStorage.getItem('users'));
+        if (!users || users.length === 0) {
+          fetch("user.json")
+          .then(response => response.json())
+          .then(json => { 
+            users = json.userList || []; 
+            this.userList = users.map(function(item) {
+              return {
+                name: item.name,
+                gonghao: item.gonghao,
+                avatar: item.avatar,
+                editing: {},
+              };
+            });
+            this.saveData();
+          });
+        } else {
+          this.saveData();
+        }
+      },
+    });
+  </script>
+
+</html>
