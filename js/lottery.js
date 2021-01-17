@@ -393,10 +393,9 @@ function animate() {
   // composer.render();
 }
 
-
 function rotateBall() {
   
-  transform(targets.sphere, 1000);
+  // transform(targets.sphere, 1000);
 
   scene.rotation.y = 0;
   new TWEEN.Tween(scene.rotation)
@@ -426,4 +425,10 @@ function rotateBall() {
   //     .to({}, 2000 * 2)
   //     .onUpdate(render)
   //     .start();
+}
+
+function autoRotate() {
+  // scene.rotation.y = 0;
+  scene.rotateY(0.05);//每次绕y轴旋转0.05弧度
+  render();
 }

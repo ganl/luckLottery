@@ -1,4 +1,4 @@
-/*ball.js*/
+/*star.js*/
 
 var winW = $(window).width();
 var winH = $(window).height();
