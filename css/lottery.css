@@ -47,10 +47,10 @@ a {
 
   .element .details {
     position: absolute;
-    bottom: 15px;
+    bottom: 12px;
     left: 0px;
     right: 0px;
-    font-size: 12px;
+    font-size: 16px;
     color: rgba(127,255,255,0.75);
   }
 

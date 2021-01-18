@@ -500,12 +500,12 @@ div.block img{
 	-webkit-box-flex: 1;
 	/*width: 33.3%;*/
 	width: 200px;
-	height: 400px;
+	height: 300px;
 	float: left;
 	left: auto;
 	margin: 0 15px;
 	background: url(../img/lucky.png) no-repeat;
-	background-size: 100% 50%;
+	background-size: 100% 67%;
 	text-align: center;
 }
 
