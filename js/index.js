@@ -11,6 +11,8 @@ runingmic.volume = 0.5;
 var pausemic = document.getElementById("pausemic");
 pausemic.volume = 1.0;
 
+var bgmusic = document.getElementById('music');
+
 var levelType = -1;
 var luckNum = 0;
 
@@ -209,6 +211,7 @@ function setPrize() {
         alert('请选择中奖人数');
         return;
     }
+
     // 停止自动旋转
     clearInterval(timer);
 
@@ -284,10 +287,15 @@ function setPrize() {
     $('button.btn-success').text('停止抽奖');
     running = true;
 
+    // $('#music-control').click();
+    bgmusic.pause();
     runingmic.currentTime = 0;
     runingmic.play();
 
     // 转起来
+    if (scene) {
+        scene.rotation.y = 0;
+    }
     rotateBall();
 }
 
@@ -382,7 +390,8 @@ function rotationAuto(timeout = 1000) {
 function confirmPrize(winnerclass) {
 
     var zjclass = winnerclass.split(',');
-
+    // $('#music-control').click();
+    bgmusic.play();
     // 中奖动画移除
     $(".animate-bg").animate({ "opacity": "0" }, "slow", function () {
         $(".animate-bg").remove();

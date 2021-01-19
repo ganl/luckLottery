@@ -289,15 +289,13 @@ function animate() {
 }
 
 function rotateBall() {
-  
   // transform(targets.sphere, 1000);
-
-  scene.rotation.y = 0;
+  // scene.rotation.y = 0;
   camera.position.z = 2500; // 离近点，让球大点
   tweenRotation = new TWEEN.Tween(scene.rotation)
     .to(
       {
-        y: Math.PI * 8
+        y: Math.PI * 21
       },
       ROTATE_TIME
     )
