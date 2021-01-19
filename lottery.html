@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -36,7 +37,7 @@
 	</div>
 
 	<audio id="runingmic" class="hide" loop>
-		<source src="./music/runing.wav">
+		<source src="./music/rolling.mp3">
 	</audio>
 	<audio id="pausemic" class="hide">
 		<source src="./music/stop.mp3">
@@ -60,7 +61,7 @@
 	<!--清除已抽奖信息-->
 	<a id="clear-control" href="javascript:;" data-open="1"></a>
 
-	<audio id="music" loop="loop" preload="auto" src="./music/musicOfBackground.mp3">
+	<audio id="music" loop="loop" preload="auto" src="./music/background.mp3">
 		你的浏览器不支持audio标签
 	</audio>
 
@@ -73,7 +74,7 @@
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="jiangping" id="prize-list">
-				
+
 			</ul>
 
 		</div>
@@ -117,14 +118,24 @@
 			height: wH + 'px'
 		});
 
-		var userList = null;
+		var bg = localStorage.getItem('bg');
+		if (bg && parseInt(bg) > 0) {
+			var head = document.getElementsByTagName('head')[0];
+			var link = document.createElement('link');
+			link.href = "./css/bg" + bg + ".css";
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			head.appendChild(link);
+		}
+
+		// var userList = null;
 		// 加载进度条并执行球
-		$.getJSON('user.json', {}, function (data) {
-			userList = data.userList;
-			totalperson = userList.length;
-			// 隐藏进度条
-			$('div.loading').fadeOut(500);
-		});
+		// $.getJSON('user.json', {}, function (data) {
+		// userList = data.userList;
+		// totalperson = userList.length;
+		// 隐藏进度条
+		$('div.loading').fadeOut(500);
+		// });
 
 		var music = document.getElementById('music');
 
@@ -135,12 +146,12 @@
 			}
 
 			var liStr = ''
-			for (let i=0; i < prizes.length; i++) {
-					liStr += '<li><a href="javascript:void(0);" onclick="setPrizeLevel('+prizes[i].level+')">'+ prizes[i].name +'</a></li>' + "\n"
+			for (let i = 0; i < prizes.length; i++) {
+				liStr += '<li><a href="javascript:void(0);" onclick="setPrizeLevel(' + prizes[i].level + ')">' + prizes[i].name + '</a></li>' + "\n"
 			}
 			$('#prize-list').append(liStr);
-			
-			
+
+
 
 			$('#music-control').removeClass('animated infinite bounce');
 			$('#music-control').click(function () {

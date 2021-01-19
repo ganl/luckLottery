@@ -1,12 +1,14 @@
 var table = [];
 
-const ROTATE_TIME = 3000;
-const column_num = 24;
+const ROTATE_TIME = 8000;
+const column_num = 26;
 
 let position = {}
 let camera, scene, renderer, controls, composer;
 var hblur, vblur;
 let targets = {simple: [], table: [], sphere: [], helix: [], grid: []};
+
+var tweenRotation = null;
 
 function init() {
 
@@ -32,8 +34,9 @@ function init() {
 
 function initCamera() {
 
-  camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.z = 3000;
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+  // camera.position.y = 1000;
+  camera.position.z = 3500;
 
 }
 
@@ -74,49 +77,49 @@ function addClickListeners() {
 function simpleObjectsLayout() {
 
   position = {
-    x: (140 * column_num - 20) / 2,
-    y: (180 * Math.ceil(table.length / column_num) - 20) / 2
+    x: (140 * column_num - 280) / 2,
+    y: (180 * Math.ceil(table.length / column_num) - 180) / 2
   };
   for (let i = 0; i < table.length; i++) {
-
-      let row = i / column_num;
-      let col = i % column_num;
-      console.log(row, col);
-      let object = new THREE.CSS3DObject(htmlElement(table, i));
+      console.log('index: ' + i + ', item: ' + table[i].name)
+      let object = new THREE.CSS3DObject(htmlElement(table[i], i));
       object.position.x = Math.random() * 4000 - 2000;
       object.position.y = Math.random() * 4000 - 2000;
       object.position.z = Math.random() * 4000 - 2000;
 
       scene.add(object);
       targets.simple.push(object);
-      tableLayout(table, i, row, col);
 
+      // 计算在表格中的行列
+      let row = Math.floor(i / column_num) + 1;
+      let col = i % column_num + 1;
+      console.log(i, row, col);
+      tableLayout(row, col);
   }
-
 }
 
-function htmlElement(table, i) {
+function htmlElement(item, index) {
   let element = document.createElement('div');
   element.className = 'element';
   element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 
   let number = document.createElement('div');
   number.className = 'number';
-  number.textContent = table[i].gonghao + ' ' + table[i].name;
+  number.textContent = item.gonghao + ' ' + item.name;
   element.appendChild(number);
 
   let symbol = document.createElement('div');
   symbol.className = 'symbol';
-  symbol.textContent = table[i].name;
-  symbol.style.cssText = 'width:100%;height:75%;background: url(/img/avatar/'+table[i].avatar+') no-repeat;background-size: cover;opacity: 0.8;text-indent: 100%;white-space: nowrap;overflow: hidden;';
+  symbol.textContent = item.name;
+  symbol.style.cssText = 'width:100%;height:75%;background: url(/img/avatar/'+item.avatar+') no-repeat;background-size: cover;opacity: 0.8;text-indent: 100%;white-space: nowrap;overflow: hidden;';
   element.appendChild(symbol);
 
   let details = document.createElement('div');
   details.className = 'details';
-  details.innerHTML = '<br>'; // + table[i].name
+  details.innerHTML = '<br>'; // + item.name
   element.appendChild(details);
 
-  element.addEventListener('click', ()=>elementClickHandler(i), false);
+  element.addEventListener('click', () => elementClickHandler(index), false);
 
   return element;
 }
@@ -124,7 +127,7 @@ function htmlElement(table, i) {
 function elementClickHandler(i){
   transform(targets.table, 1000);
 
-  new TWEEN.Tween(targets.simple[i / 5].position)
+  new TWEEN.Tween(targets.simple[i].position)
       .to({
           x: 0,
           y: 0,
@@ -139,12 +142,12 @@ function elementClickHandler(i){
       .start();
 }
 
-function tableLayout(table, index, row, col) {
+function tableLayout(row, col) {
 
   let object = new THREE.Object3D();
 
-  object.position.x = (col * 140) - position.x;
-  object.position.y = -(row * 180) + position.y;
+  object.position.x = (col * 140) - position.x; // 1330
+  object.position.y = -(row * 180) + position.y; // 990
   targets.table.push(object);
 }
 
@@ -290,7 +293,8 @@ function rotateBall() {
   // transform(targets.sphere, 1000);
 
   scene.rotation.y = 0;
-  new TWEEN.Tween(scene.rotation)
+  camera.position.z = 2500; // 离近点，让球大点
+  tweenRotation = new TWEEN.Tween(scene.rotation)
     .to(
       {
         y: Math.PI * 8
@@ -301,7 +305,10 @@ function rotateBall() {
     .easing(TWEEN.Easing.Exponential.InOut)
     .start()
     .onComplete(() => {
-      console.log('completed')
+      if (running) { // index.js
+        console.log('completed, run again')
+        rotateBall();
+      }
     });
 
   // new TWEEN.Tween(targets.simple[4].position)
@@ -321,6 +328,7 @@ function rotateBall() {
 
 function setRotationY (y = 0) {
     scene.rotation.y = y;
+    camera.position.z = 2500;
 }
 
 function autoRotate() {

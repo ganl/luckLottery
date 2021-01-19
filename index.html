@@ -80,12 +80,21 @@
             </el-table-column>
           </el-table>
           <el-button size="small" type="primary" @click="onAdd(null, -1)" v-show="prizesData.length===0">增加</el-button>
+          <el-button size="small" type="danger" @click="onReset">重置中奖结果</el-button>
         </div>
         <el-row :gutter="20">
           <el-col :span="12" :offset="6">
-            <el-button size="small" type="danger" @click="onReset">重置中奖结果</el-button>
+            <el-select v-model="currentBg" size="small">
+              <el-option
+                v-for="(item, index) in bgs"
+                :key="index"
+                :label="item.name"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+
             <a href="./lottery.html">去抽奖</a>
-            <a href="./index.html">去看弹幕</a>
+            <a href="./danmu.html" v-show="false">去看弹幕</a>
           </el-col>
         </el-row>
       </el-col>
@@ -93,8 +102,8 @@
       <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12">
         <div class="user-list">
           <h1>参会人员列表(共{{userList.length}}人)</h1>
-          <el-table :data="userList" style="width: 100%" stripe>
-            <el-table-column :prop="item.prop" :label="item.label" width="180" v-for="(item, index) in userColumns"
+          <el-table :data="userList" style="width: 100%" stripe max-height="720">
+            <el-table-column :prop="item.prop" :label="item.label" width="item.width" v-for="(item, index) in userColumns"
               :key="index">
               <template slot-scope="scope">
                 <div>
@@ -120,6 +129,7 @@
       </el-col>
     </el-row>
 
+    <el-backtop target="body .el-row"></el-backtop>
   </div>
 </body>
 <script src="js/vue@2.6.12.js"></script>
@@ -149,19 +159,41 @@
         {
           prop: 'gonghao',
           label: '工号',
+          width: 80
         },
         {
           prop: 'name',
           label: '姓名',
+          width: 140
         },
         {
           prop: 'avatar',
           label: '头像',
+          width: 240
         },
       ],
       prizesData: [
       ],
       userList: [],
+      bgs: [
+        {
+          value: 0,
+          name: '黑色1'
+        },
+        {
+          value: 1,
+          name: '黑色2'
+        },
+        {
+          value: 2,
+          name: '红色1'
+        },
+        {
+          value: 3,
+          name: '红色2'
+        },
+      ],
+      currentBg: parseInt(localStorage.getItem('bg')) || 0,
     },
     computed: {
       prizes: function () {
@@ -192,6 +224,11 @@
           });
       },
     },
+    watch: {
+      currentBg: function(val) {
+        localStorage.setItem('bg', val);
+      },
+    },
     methods: {
       onReset: function () {
         var vm = this;
@@ -205,7 +242,8 @@
           }
         ).then(function () {
           localStorage.removeItem('players');
-          localStorage.removeItem('result');
+          localStorage.removeItem('isWinningedsJson');
+          localStorage.removeItem('isWinningeds');
         });
       },
       onSaveCell: function (row, key) {
@@ -263,6 +301,7 @@
                 return {
                   name: item.name,
                   gonghao: item.gonghao,
+                  avatar: item.avatar,
                   editing: {},
                 };
               });
@@ -327,6 +366,8 @@
           .then(json => {
             users = json.userList || [];
             this.setUsers(users);
+          }).catch(err => {
+            console.log(err) 
           });
       } else {
         this.setUsers(users);

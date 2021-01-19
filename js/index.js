@@ -123,7 +123,7 @@ function winningFn(type) {
 function showHaveHTML(type) {
     console.log(firstType, type)
     // 判断是否换了抽奖等级
-    if (firstType !== '' && firstType != type) {
+    if (firstType !== '') {
         container.find('div.select-number').remove();
     }
 
@@ -167,9 +167,17 @@ function setPrizeLevel(level) {
 
     $levelType.html(levelTypeTitle[levelType]);
 
+    firstType = levelType;
+    showJiangText(levelType);
+    //显示已经中奖的号码
+    showHaveHTML(levelType);
+
+    $('button.btn-success').attr('disabled', true);
+
     setTimeout(function() {
         $('#sphere').click();
-        rotationBall(3000);
+        $('button.btn-success').attr('disabled', false);
+        rotationAuto(3000);
     }, 3000);
 }
 
@@ -203,14 +211,6 @@ function setPrize() {
     }
     // 停止自动旋转
     clearInterval(timer);
-
-    //显示已经中奖的号码
-    console.log(JSON.stringify(isWinningedsJson));
-    showHaveHTML(type);
-
-    // 是否显示获奖标题
-    showJiangText(type);
-    firstType = type;
 
     var personArrObj = [];
 
@@ -264,7 +264,7 @@ function setPrize() {
         }
 
         localStorage.setItem('players', JSON.stringify(players));
-
+        tweenRotation && tweenRotation.stop();
         runingmic.pause();
 
         showLuckAnimate(levelTypeTitle[levelType], personArrObj);
@@ -293,12 +293,12 @@ function setPrize() {
 
 // 显示获奖标题
 function showJiangText(type) {
-    if (container.find('div.select-number').length) {
+    // if (container.find('div.select-number').length) {
         $('#jiangpingsspan').text(levelTypeTitle[type]);
         $('div.jiangpingtext').addClass('show').removeClass('hide');
-    } else {
-        $('div.jiangpingtext').addClass('hide').removeClass('show');
-    }
+    // } else {
+        // $('div.jiangpingtext').addClass('hide').removeClass('show');
+    // }
 }
 
 //显示中奖动画
@@ -310,9 +310,18 @@ function showLuckAnimate(showLevel, personObj) {
     var winnerclasses = [];
 
     if (luckNum > 1) {
+        var style = '';
         container.append('<div class="animate-bg"><div class="lottery-animate-bg"><div id="multi-lottery"></div>');
         for (var i = 0; i < luckNum; i++) {
-            $('#multi-lottery').append('<div class="lotteryuserhead2"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
+            switch (luckNum) {
+                case 6:
+                    style = 'margin: 0px 74px;';
+                    break;
+                case 8:
+                    style = 'margin: 0px 30px;'
+                    break;
+            }
+            $('#multi-lottery').append('<div class="lotteryuserhead2" style="' + style + '"><img src="' + personObj[i].imgurl + '"/><span class="user-name">' + personObj[i].username + '</span></div></div>');
             winnerclasses.push(personObj[i].winnerclass);
         }
 
@@ -359,7 +368,7 @@ function getHTML(user, classname) {
     // container.append(html);
 }
 
-function rotationBall(timeout = 1000) {
+function rotationAuto(timeout = 1000) {
     setTimeout(function () {
         if (timer) {
             clearInterval(timer);
@@ -399,7 +408,7 @@ function confirmPrize(winnerclass) {
             }, 1000);
 
             // 球放恢复运转
-            rotationBall();
+            rotationAuto();
 
             // 运动完成自动继续抽奖
             $('div.' + value).one("animationend", function () {

@@ -103,7 +103,7 @@
 
 .select-number{
 	/* width:84px; */
-	height:110px;
+	height:90px;
 	background:transparent;
 	position: fixed;
 	right:50%;
@@ -457,7 +457,7 @@ div.block img{
 
 .confirm-btn {
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 6px;
 }
 
 @media screen and (max-width: 1900px) {
@@ -468,13 +468,13 @@ div.block img{
 }
 
 #luck-list {
-		height: 580px;
+		height: 560px;
 		overflow-x: hidden;
     overflow-y: auto;
-    width: 195px;
+    width: 180px;
     position: absolute;
     right: 0px;
-    top: 90px;
+    top: 86px;
 		z-index: 100001;
 		margin: 0 auto;
 		text-align: center;
@@ -503,7 +503,7 @@ div.block img{
 	height: 300px;
 	float: left;
 	left: auto;
-	margin: 0 15px;
+	margin: 0;
 	background: url(../img/lucky.png) no-repeat;
 	background-size: 100% 67%;
 	text-align: center;
